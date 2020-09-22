@@ -18,6 +18,8 @@ export default class Yard extends phaser.Scene {
         this.load.image('modern', 'assets/tilesets/modern.png');
         this.load.image('outside', 'assets/tilesets/outside.png');
         this.load.image('terrain', 'assets/tilesets/terrain.png');
+        this.load.image('omega', 'assets/tilesets/omega.png');
+        this.load.image('jungle', 'assets/tilesets/jungle.png');
         this.load.spritesheet('people', 'assets/sprites/people.png', { frameWidth: 72, frameHeight: 110 });
         this.load.tilemapTiledJSON('map', 'assets/tilemaps/yard.json');
     }
@@ -32,8 +34,10 @@ export default class Yard extends phaser.Scene {
         const modern = map.addTilesetImage('modern');
         const outside = map.addTilesetImage('outside');
         const terrain = map.addTilesetImage('terrain');
+        const omega = map.addTilesetImage('omega');
+        const jungle = map.addTilesetImage('jungle');
 
-        const allLayers = [cars, chairs, farm, modern, outside, terrain];
+        const allLayers = [cars, chairs, farm, modern, outside, terrain, omega, jungle];
 
         this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
@@ -62,31 +66,31 @@ export default class Yard extends phaser.Scene {
         world0Layer.setDepth(1);
         belowLayer.setDepth(0);
 
-        world4Layer.renderDebug(this.add.graphics().setAlpha(0.75), {
-            tileColor: null, // Color of non-colliding tiles
-            collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-            faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
-        });
-        world3Layer.renderDebug(this.add.graphics().setAlpha(0.75), {
-            tileColor: null, // Color of non-colliding tiles
-            collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-            faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
-        });
-        world2Layer.renderDebug(this.add.graphics().setAlpha(0.75), {
-            tileColor: null, // Color of non-colliding tiles
-            collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-            faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
-        });
-        world1Layer.renderDebug(this.add.graphics().setAlpha(0.75), {
-            tileColor: null, // Color of non-colliding tiles
-            collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-            faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
-        });
-        world0Layer.renderDebug(this.add.graphics().setAlpha(0.75), {
-            tileColor: null, // Color of non-colliding tiles
-            collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-            faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
-        });
+        // world4Layer.renderDebug(this.add.graphics().setAlpha(0.75), {
+        //     tileColor: null, // Color of non-colliding tiles
+        //     collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+        //     faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+        // });
+        // world3Layer.renderDebug(this.add.graphics().setAlpha(0.75), {
+        //     tileColor: null, // Color of non-colliding tiles
+        //     collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+        //     faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+        // });
+        // world2Layer.renderDebug(this.add.graphics().setAlpha(0.75), {
+        //     tileColor: null, // Color of non-colliding tiles
+        //     collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+        //     faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+        // });
+        // world1Layer.renderDebug(this.add.graphics().setAlpha(0.75), {
+        //     tileColor: null, // Color of non-colliding tiles
+        //     collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+        //     faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+        // });
+        // world0Layer.renderDebug(this.add.graphics().setAlpha(0.75), {
+        //     tileColor: null, // Color of non-colliding tiles
+        //     collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+        //     faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+        // });
 
         const spawnPoint: any = map.findObject("objects", obj => obj.name === 'spawnPoint');
 
