@@ -193,7 +193,23 @@ export default class Yard extends phaser.Scene {
         } else if (this.cursors.down.isDown) {
             body.setVelocityY(speed);
             this.player.anims.play('down', true);
-        } else {
+        }
+        else if (this.input.activePointer.isDown) {
+            if (this.input.activePointer.worldX < this.player.getCenter().x) {
+                body.setVelocityX(-speed);
+                this.player.anims.play('left', true);
+            } else if (this.input.activePointer.worldX > this.player.getCenter().x) {
+                body.setVelocityX(speed);
+                this.player.anims.play('right', true);
+            } else if (this.input.activePointer.worldY < this.player.getCenter().y) {
+                body.setVelocityY(-speed);
+                this.player.anims.play('up', true);
+            } else if (this.input.activePointer.worldY > this.player.getCenter().y) {
+                body.setVelocityY(speed);
+                this.player.anims.play('down', true);
+            }
+        }
+        else {
             this.player.setVelocityX(0);
             this.player.anims.stop();
         }
