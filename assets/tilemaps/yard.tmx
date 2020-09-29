@@ -9213,6 +9213,51 @@
  </tileset>
  <tileset firstgid="21400" name="jungle" tilewidth="16" tileheight="16" tilecount="462" columns="22">
   <image source="../tilesets/jungle.png" width="352" height="336"/>
+  <tile id="236">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="237">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="238">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="253">
+   <properties>
+    <property name="collide" type="bool" value="false"/>
+   </properties>
+  </tile>
+  <tile id="254">
+   <properties>
+    <property name="collide" type="bool" value="false"/>
+   </properties>
+  </tile>
+  <tile id="255">
+   <properties>
+    <property name="collide" type="bool" value="false"/>
+   </properties>
+  </tile>
+  <tile id="275">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="276">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="277">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
  </tileset>
  <tileset firstgid="21862" name="omega" tilewidth="16" tileheight="16" tilecount="8160" columns="96">
   <image source="../tilesets/omega.png" width="1536" height="1360"/>
