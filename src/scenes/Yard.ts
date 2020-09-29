@@ -1,4 +1,6 @@
 import * as phaser from 'phaser';
+import * as move from '../util/movement';
+import { moveCursor } from 'readline';
 
 export default class Yard extends phaser.Scene {
     player!: phaser.Physics.Arcade.Sprite;
@@ -160,14 +162,15 @@ export default class Yard extends phaser.Scene {
         camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
         // Help text that has a "fixed" position on the screen
-        this.add
-            .text(16, 16, 'Arrow keys to scroll', {
-                font: '18px monospace',
-                fill: '#ffffff',
-                padding: { x: 20, y: 10 },
-                backgroundColor: '#000000'
-            })
-            .setScrollFactor(0);
+        // this.add.text(16, 16, 'Arrow keys to scroll', {
+        //     font: '18px monospace',
+        //     fill: '#ffffff',
+        //     padding: { x: 20, y: 10 },
+        //     backgroundColor: '#000000'
+        // }).setScrollFactor(0);
+
+        console.log(camera.displayHeight);
+        console.log(camera.displayWidth);
     }
 
     update(time: any, delta: any) {
@@ -195,16 +198,16 @@ export default class Yard extends phaser.Scene {
             this.player.anims.play('down', true);
         }
         else if (this.input.activePointer.isDown) {
-            if (this.input.activePointer.worldX < this.player.getCenter().x) {
+            if (move.mobileLeftCondition(this.input.activePointer, this.player, this.cameras.main)) {
                 body.setVelocityX(-speed);
                 this.player.anims.play('left', true);
-            } else if (this.input.activePointer.worldX > this.player.getCenter().x) {
+            } else if (move.mobileRightCondition(this.input.activePointer, this.player, this.cameras.main)) {
                 body.setVelocityX(speed);
                 this.player.anims.play('right', true);
-            } else if (this.input.activePointer.worldY < this.player.getCenter().y) {
+            } else if (move.mobileUpCondition(this.input.activePointer, this.player, this.cameras.main)) {
                 body.setVelocityY(-speed);
                 this.player.anims.play('up', true);
-            } else if (this.input.activePointer.worldY > this.player.getCenter().y) {
+            } else if (move.mobileDownCondition(this.input.activePointer, this.player, this.cameras.main)) {
                 body.setVelocityY(speed);
                 this.player.anims.play('down', true);
             }
