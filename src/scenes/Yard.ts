@@ -174,7 +174,7 @@ export default class Yard extends phaser.Scene {
     }
 
     update(time: any, delta: any) {
-        const speed: number = 400;
+        const speed: number = 200;
         // Apply the controls to the camera each update tick of the game
         this.controls.update(delta);
 
