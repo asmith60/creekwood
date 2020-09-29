@@ -201,7 +201,8 @@ export default class Yard extends phaser.Scene {
             } else if (this.input.activePointer.worldX > this.player.getCenter().x) {
                 body.setVelocityX(speed);
                 this.player.anims.play('right', true);
-            } else if (this.input.activePointer.worldY < this.player.getCenter().y) {
+            }
+            if (this.input.activePointer.worldY < this.player.getCenter().y) {
                 body.setVelocityY(-speed);
                 this.player.anims.play('up', true);
             } else if (this.input.activePointer.worldY > this.player.getCenter().y) {
