@@ -168,9 +168,6 @@ export default class Yard extends phaser.Scene {
         //     padding: { x: 20, y: 10 },
         //     backgroundColor: '#000000'
         // }).setScrollFactor(0);
-
-        console.log(camera.displayHeight);
-        console.log(camera.displayWidth);
     }
 
     update(time: any, delta: any) {
@@ -201,16 +198,20 @@ export default class Yard extends phaser.Scene {
             // Update pointer position
             this.input.activePointer.updateWorldPoint(this.cameras.main);
 
-            if (move.mobileLeftCondition(this.input.activePointer, this.player, this.cameras.main)) {
+            const pointer = this.input.activePointer;
+            const player = this.player;
+            const camera = this.cameras.main;
+
+            if (move.mobileLeftCondition(pointer, player, camera)) {
                 body.setVelocityX(-speed);
                 this.player.anims.play('left', true);
-            } else if (move.mobileRightCondition(this.input.activePointer, this.player, this.cameras.main)) {
+            } else if (move.mobileRightCondition(pointer, player, camera)) {
                 body.setVelocityX(speed);
                 this.player.anims.play('right', true);
-            } else if (move.mobileUpCondition(this.input.activePointer, this.player, this.cameras.main)) {
+            } else if (move.mobileUpCondition(pointer, player, camera)) {
                 body.setVelocityY(-speed);
                 this.player.anims.play('up', true);
-            } else if (move.mobileDownCondition(this.input.activePointer, this.player, this.cameras.main)) {
+            } else if (move.mobileDownCondition(pointer, player, camera)) {
                 body.setVelocityY(speed);
                 this.player.anims.play('down', true);
             } else {
