@@ -183,7 +183,7 @@ export default class Yard extends phaser.Scene {
         // Stop any previous movement from the last frame
         body.setVelocity(0);
 
-        // Horizontal movement
+        // Movement
         if (this.cursors.left.isDown) {
             body.setVelocityX(-speed);
             this.player.anims.play('left', true);
@@ -198,6 +198,9 @@ export default class Yard extends phaser.Scene {
             this.player.anims.play('down', true);
         }
         else if (this.input.activePointer.isDown) {
+            // Update pointer position
+            this.input.activePointer.updateWorldPoint(this.cameras.main);
+
             if (move.mobileLeftCondition(this.input.activePointer, this.player, this.cameras.main)) {
                 body.setVelocityX(-speed);
                 this.player.anims.play('left', true);
@@ -210,10 +213,12 @@ export default class Yard extends phaser.Scene {
             } else if (move.mobileDownCondition(this.input.activePointer, this.player, this.cameras.main)) {
                 body.setVelocityY(speed);
                 this.player.anims.play('down', true);
+            } else {
+                this.player.setVelocity(0);
+                this.player.anims.stop();
             }
-        }
-        else {
-            this.player.setVelocityX(0);
+        } else {
+            this.player.setVelocity(0);
             this.player.anims.stop();
         }
 
