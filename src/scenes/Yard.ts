@@ -1,6 +1,5 @@
 import * as phaser from 'phaser';
 import * as move from '../util/movement';
-import { moveCursor } from 'readline';
 
 export default class Yard extends phaser.Scene {
     player!: phaser.Physics.Arcade.Sprite;
@@ -14,20 +13,12 @@ export default class Yard extends phaser.Scene {
     }
 
     preload() {
-        this.load.image('cars', 'assets/tilesets/cars.png');
-        this.load.image('chairs', 'assets/tilesets/chairs.png');
-        this.load.image('farm', 'assets/tilesets/farm.png');
-        this.load.image('modern', 'assets/tilesets/modern.png');
-        this.load.image('outside', 'assets/tilesets/outside.png');
-        this.load.image('terrain', 'assets/tilesets/terrain.png');
-        this.load.image('omega', 'assets/tilesets/omega.png');
-        this.load.image('jungle', 'assets/tilesets/jungle.png');
-        this.load.spritesheet('people', 'assets/sprites/people.png', { frameWidth: 72, frameHeight: 110 });
-        this.load.tilemapTiledJSON('map', 'assets/tilemaps/yard.json');
+        console.log('preload');
     }
 
     create() {
-        const map = this.make.tilemap({ key: 'map' });
+        console.log('create');
+        const map = this.make.tilemap({ key: 'yard' });
         // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
         // Phaser's cache (i.e. the name you used in preload)
         const cars = map.addTilesetImage('cars');
@@ -142,7 +133,6 @@ export default class Yard extends phaser.Scene {
             repeat: -1
         });
 
-        // Phaser supports multiple cameras, but you can access the default camera like this:
         const camera = this.cameras.main;
 
         // Set up the arrows to control the camera
@@ -160,14 +150,6 @@ export default class Yard extends phaser.Scene {
         camera.setZoom(2.5);
         // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
         camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-
-        // Help text that has a "fixed" position on the screen
-        // this.add.text(16, 16, 'Arrow keys to scroll', {
-        //     font: '18px monospace',
-        //     fill: '#ffffff',
-        //     padding: { x: 20, y: 10 },
-        //     backgroundColor: '#000000'
-        // }).setScrollFactor(0);
     }
 
     update(time: any, delta: any) {

@@ -1,4 +1,5 @@
 import * as phaser from 'phaser';
+import Title from './scenes/Title';
 import Yard from './scenes/Yard';
 
 const config: phaser.Types.Core.GameConfig = {
@@ -16,6 +17,7 @@ const config: phaser.Types.Core.GameConfig = {
         }
     },
     scene: [
+        Title,
         Yard
     ]
 };
