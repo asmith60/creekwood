@@ -144,13 +144,13 @@ export default class Yard extends phaser.Scene {
     update(time: any, delta: any) {
         if (time > this.delay) {
             for (const animal of this.animals) {
-                wander(animal, 75);
+                wander(animal, 50);
                 this.delay = time + 3000;
             }
         }
 
         if (this.input.activePointer.isDown) {
-            this.scene.start('Yard');
+            this.cameras.main.fadeOut(2000, 0, 0, 0);
         }
     }
 }
