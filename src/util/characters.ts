@@ -205,7 +205,7 @@ export function wander(character: phaser.Physics.Arcade.Sprite, speed: number) {
 
     if (option === 0) {
         body.setVelocity(0);
-        character.anims.stop();
+        character.anims.play(`${character.name}Turn`, true);
     } else if (option === 1) {
         body.setVelocityY(-speed);
         character.anims.play(`${character.name}Up`, true);
