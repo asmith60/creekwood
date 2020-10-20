@@ -112,7 +112,7 @@ export default class Yard extends phaser.Scene {
 
         const camera = this.cameras.main;
 
-        camera.scrollX = 65;
+        camera.scrollX = 25;
 
         camera.setZoom(.94);
 
@@ -121,7 +121,7 @@ export default class Yard extends phaser.Scene {
 
         this.delay = 3000;
 
-        this.add.text(300, 650, 'Press any button to begin', {
+        this.add.text(275, 650, 'Press any button to begin', {
             font: {
                 fontSize: '30px',
                 fontFamily: '"Lucida Console", Monaco, monospace'
