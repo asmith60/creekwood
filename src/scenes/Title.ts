@@ -131,8 +131,14 @@ export default class Yard extends phaser.Scene {
         });
 
         this.input.keyboard.on('keydown', () => {
-            this.scene.start('Yard');
+            this.cameras.main.fadeOut(2000, 0, 0, 0);
         }, this);
+
+        this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
+            this.time.delayedCall(1000, () => {
+                this.scene.start('Yard');
+            });
+        });
     }
 
     update(time: any, delta: any) {

@@ -147,9 +147,10 @@ export default class Yard extends phaser.Scene {
         });
 
         camera.startFollow(this.player);
-        camera.setZoom(2.5);
+        camera.setZoom(2);
         // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
         camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+        camera.fadeIn(2000, 0, 0, 0);
     }
 
     update(time: any, delta: any) {
