@@ -1,9 +1,9 @@
 import * as phaser from 'phaser';
-import { BaseSprite } from './Base';
+import { DogSprite } from './Dog';
 
-export class BlackySprite extends BaseSprite {
+export class BlackySprite extends DogSprite {
     constructor(name: string, scene: phaser.Scene, map: phaser.Tilemaps.Tilemap, spawn: string, scale: number, depth: number, speed: number) {
-        super(name, scene, map, spawn, scale, depth, 'pets', speed, {
+        super(name, scene, map, spawn, scale, depth, speed, {
             initialFrame: 1,
             turnFrame: 1,
             leftStartFrame: 12,

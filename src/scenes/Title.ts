@@ -6,6 +6,12 @@ import { BrunoSprite } from '../sprites/Bruno';
 import { AgnesSprite } from '../sprites/Agnes';
 import { NalaSprite } from '../sprites/Nala';
 import { MikaSprite } from '../sprites/Mika';
+import { HelenaSprite } from '../sprites/Helena';
+import { RachelSprite } from '../sprites/Rachel';
+import { KrystalSprite } from '../sprites/Krystal';
+import { CosimaSprite } from '../sprites/Cosima';
+import { AllisonSprite } from '../sprites/Allison';
+import { BethSprite } from '../sprites/Beth';
 import { MopsySprite } from '../sprites/Mopsy';
 
 export default class Yard extends phaser.Scene {
@@ -74,12 +80,12 @@ export default class Yard extends phaser.Scene {
         belowLayer.setDepth(0);
 
         this.sprites.push(
-            new ChickenSprite('helena', this, map, 'helenaSpawn', 1.5, 6, 50),
-            new ChickenSprite('rachel', this, map, 'rachelSpawn', 1.5, 6, 50),
-            new ChickenSprite('krystal', this, map, 'krystalSpawn', 1.5, 6, 50),
-            new ChickenSprite('cosima', this, map, 'cosimaSpawn', 1.5, 6, 50),
-            new ChickenSprite('beth', this, map, 'bethSpawn', 1.5, 6, 50),
-            new ChickenSprite('allison', this, map, 'allisonSpawn', 1.5, 6, 50),
+            new HelenaSprite('helena', this, map, 'helenaSpawn', 1.5, 6, 50),
+            new RachelSprite('rachel', this, map, 'rachelSpawn', 1.5, 6, 50),
+            new KrystalSprite('krystal', this, map, 'krystalSpawn', 1.5, 6, 50),
+            new CosimaSprite('cosima', this, map, 'cosimaSpawn', 1.5, 6, 50),
+            new BethSprite('beth', this, map, 'bethSpawn', 1.5, 6, 50),
+            new AllisonSprite('allison', this, map, 'allisonSpawn', 1.5, 6, 50),
             new BlackySprite('blacky', this, map, 'blackySpawn', 1, 6, 50),
             new BrunoSprite('bruno', this, map, 'brunoSpawn', 1, 6, 50),
             new AgnesSprite('agnes', this, map, 'agnesSpawn', 1, 6, 50),

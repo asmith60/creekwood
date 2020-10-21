@@ -1,9 +1,9 @@
 import * as phaser from 'phaser';
-import { BaseSprite } from './Base';
+import { CatSprite } from './Cat';
 
-export class NalaSprite extends BaseSprite {
+export class NalaSprite extends CatSprite {
     constructor(name: string, scene: phaser.Scene, map: phaser.Tilemaps.Tilemap, spawn: string, scale: number, depth: number, speed: number) {
-        super(name, scene, map, spawn, scale, depth, 'pets', speed, {
+        super(name, scene, map, spawn, scale, depth, speed, {
             initialFrame: 49,
             turnFrame: 49,
             leftStartFrame: 60,

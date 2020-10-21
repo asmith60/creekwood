@@ -31,19 +31,19 @@ export default class Yard extends phaser.Scene {
         const omega = map.addTilesetImage('omega');
         const jungle = map.addTilesetImage('jungle');
 
-        const allLayers = [cars, chairs, farm, modern, outside, terrain, omega, jungle];
+        const allTilesets = [cars, chairs, farm, modern, outside, terrain, omega, jungle];
 
         this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
         // Parameters: layer name (or index) from Tiled, tileset, x, y
-        const above1Layer = map.createDynamicLayer('above1', allLayers, 0, 0);
-        const above0Layer = map.createDynamicLayer('above0', allLayers, 0, 0);
-        const world4Layer = map.createDynamicLayer('world4', allLayers, 0, 0);
-        const world3Layer = map.createDynamicLayer('world3', allLayers, 0, 0);
-        const world2Layer = map.createDynamicLayer('world2', allLayers, 0, 0);
-        const world1Layer = map.createDynamicLayer('world1', allLayers, 0, 0);
-        const world0Layer = map.createDynamicLayer('world0', allLayers, 0, 0);
-        const belowLayer = map.createDynamicLayer('below', allLayers, 0, 0);
+        const above1Layer = map.createDynamicLayer('above1', allTilesets, 0, 0);
+        const above0Layer = map.createDynamicLayer('above0', allTilesets, 0, 0);
+        const world4Layer = map.createDynamicLayer('world4', allTilesets, 0, 0);
+        const world3Layer = map.createDynamicLayer('world3', allTilesets, 0, 0);
+        const world2Layer = map.createDynamicLayer('world2', allTilesets, 0, 0);
+        const world1Layer = map.createDynamicLayer('world1', allTilesets, 0, 0);
+        const world0Layer = map.createDynamicLayer('world0', allTilesets, 0, 0);
+        const belowLayer = map.createDynamicLayer('below', allTilesets, 0, 0);
 
         world4Layer.setCollisionByProperty({ collide: true });
         world3Layer.setCollisionByProperty({ collide: true });
@@ -118,7 +118,6 @@ export default class Yard extends phaser.Scene {
     }
 
     update(time: any, delta: any) {
-        const speed: number = 200;
         // Apply the controls to the camera each update tick of the game
         this.controls.update(delta);
         this.input.activePointer.updateWorldPoint(this.cameras.main);
@@ -126,7 +125,6 @@ export default class Yard extends phaser.Scene {
         const pointer = this.input.activePointer;
         const player = this.player;
         const camera = this.cameras.main;
-
         const body = this.player.body as phaser.Physics.Arcade.Body;
 
         // Stop any previous movement from the last frame
@@ -147,6 +145,6 @@ export default class Yard extends phaser.Scene {
         }
 
         // Normalize and scale the velocity so that player can't move faster along a diagonal
-        body.velocity.normalize().scale(speed);
+        body.velocity.normalize().scale(this.player.speed);
     }
 }

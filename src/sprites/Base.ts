@@ -1,6 +1,6 @@
 import * as phaser from 'phaser';
 
-export class BaseSprite extends phaser.Physics.Arcade.Sprite {
+export abstract class BaseSprite extends phaser.Physics.Arcade.Sprite {
     speed: number;
     constructor(name: string, scene: phaser.Scene, map: phaser.Tilemaps.Tilemap, spawn: string, scale: number, depth: number, key: string, speed: number, animationFrames: AnimationFrames) {
         super(scene, (map.findObject("objects", obj => obj.name === spawn) as any).x, (map.findObject("objects", obj => obj.name === spawn) as any).y, key, animationFrames.initialFrame);
