@@ -10,6 +10,7 @@ export abstract class BaseSprite extends phaser.Physics.Arcade.Sprite {
         this.setScale(scale);
         this.setDepth(depth);
         this.setCollideWorldBounds(true);
+        this.body.immovable = true;
 
         this.speed = speed;
 

@@ -17,6 +17,8 @@ export class SusanSprite extends PersonSprite {
             downEndFrame: 2
         });
 
+        this.body.immovable = false;
+
         const spawnPoint: any = map.findObject("objects", obj => obj.name === spawn);
         this.interactField = scene.physics.add.sprite(spawnPoint.x, spawnPoint.y, 'people');
         this.interactField.setScale(scale);

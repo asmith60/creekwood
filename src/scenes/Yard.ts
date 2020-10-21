@@ -1,11 +1,14 @@
 import * as phaser from 'phaser';
 import { SusanSprite } from '../sprites/Susan';
 import { BlackySprite } from '../sprites/Blacky';
+import { BrunoSprite } from '../sprites/Bruno';
 import * as move from '../util/controls';
 
 export default class Yard extends phaser.Scene {
-    player!: SusanSprite;
+    susan!: SusanSprite;
     blacky!: BlackySprite;
+    bruno!: BrunoSprite;
+    delay: number = 0;
     cursors: any;
     controls: any;
 
@@ -90,29 +93,30 @@ export default class Yard extends phaser.Scene {
         //     faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
         // });
 
-        this.player = new SusanSprite('susan', this, map, 'susanSpawn', .4, 6, 200);
-        this.player.setBodySize(50, 30);
-        this.player.setOffset(18, 80);
-        this.physics.add.collider(this.player, world4Layer);
-        this.physics.add.collider(this.player, world3Layer);
-        this.physics.add.collider(this.player, world2Layer);
-        this.physics.add.collider(this.player, world1Layer);
-        this.physics.add.collider(this.player, world0Layer);
+        const spriteGroup = this.add.group();
+
+        this.susan = new SusanSprite('susan', this, map, 'susanSpawn', .4, 6, 200);
+        this.susan.setBodySize(50, 30);
+        this.susan.setOffset(18, 80);
+        spriteGroup.add(this.susan);
 
         this.blacky = new BlackySprite('blacky', this, map, 'blackySpawn', .5, 5, 300);
         this.blacky.setBodySize(33, 42);
         this.blacky.setOffset(9, 30);
-        this.physics.add.collider(this.blacky, world4Layer);
-        this.physics.add.collider(this.blacky, world3Layer);
-        this.physics.add.collider(this.blacky, world2Layer);
-        this.physics.add.collider(this.blacky, world1Layer);
-        this.physics.add.collider(this.blacky, world0Layer);
-        this.physics.add.collider(this.player, this.blacky);
-        this.physics.add.overlap(this.player.interactField, this.blacky, () => {
+        this.physics.add.collider(this.susan, this.blacky);
+        this.physics.add.overlap(this.susan.interactField, this.blacky, () => {
             if (phaser.Input.Keyboard.JustDown(spacebar)) {
                 console.log("Interact!!!");
             };
         });
+        spriteGroup.add(this.blacky);
+
+        this.physics.add.collider(spriteGroup, world4Layer);
+        this.physics.add.collider(spriteGroup, world3Layer);
+        this.physics.add.collider(spriteGroup, world2Layer);
+        this.physics.add.collider(spriteGroup, world1Layer);
+        this.physics.add.collider(spriteGroup, world0Layer);
+        this.physics.add.collider(spriteGroup, spriteGroup);
 
         const camera = this.cameras.main;
 
@@ -127,7 +131,7 @@ export default class Yard extends phaser.Scene {
             speed: 0.5
         });
 
-        camera.startFollow(this.player);
+        camera.startFollow(this.susan);
         camera.setZoom(2);
         // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
         camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -141,32 +145,36 @@ export default class Yard extends phaser.Scene {
 
         const pointer = this.input.activePointer;
         const camera = this.cameras.main;
-        const susanBody = this.player.body as phaser.Physics.Arcade.Body;
+        const susanBody = this.susan.body as phaser.Physics.Arcade.Body;
         const blackyBody = this.blacky.body as phaser.Physics.Arcade.Body;
 
         // Stop any previous movement from the last frame
         susanBody.setVelocity(0);
-        this.player.interactField.setVelocity(0);
+        this.susan.interactField.setVelocity(0);
+
+
 
         // Movement
-        if (this.cursors.left.isDown || (this.input.activePointer.isDown && move.mobileLeftCondition(pointer, this.player, camera))) {
-            this.player.moveLeft();
-        } else if (this.cursors.right.isDown || (this.input.activePointer.isDown && move.mobileRightCondition(pointer, this.player, camera))) {
-            this.player.moveRight();
-        } else if (this.cursors.up.isDown || (this.input.activePointer.isDown && move.mobileUpCondition(pointer, this.player, camera))) {
-            this.player.moveUp()
-        } else if (this.cursors.down.isDown || (this.input.activePointer.isDown && move.mobileDownCondition(pointer, this.player, camera))) {
-            this.player.moveDown();
+        if (this.cursors.left.isDown || (this.input.activePointer.isDown && move.mobileLeftCondition(pointer, this.susan, camera))) {
+            this.susan.moveLeft();
+        } else if (this.cursors.right.isDown || (this.input.activePointer.isDown && move.mobileRightCondition(pointer, this.susan, camera))) {
+            this.susan.moveRight();
+        } else if (this.cursors.up.isDown || (this.input.activePointer.isDown && move.mobileUpCondition(pointer, this.susan, camera))) {
+            this.susan.moveUp()
+        } else if (this.cursors.down.isDown || (this.input.activePointer.isDown && move.mobileDownCondition(pointer, this.susan, camera))) {
+            this.susan.moveDown();
         } else {
-            this.player.setVelocity(0);
-            this.player.anims.stop();
+            this.susan.setVelocity(0);
+            this.susan.anims.stop();
         }
 
         // Normalize and scale the velocity so that player can't move faster along a diagonal
-        susanBody.velocity.normalize().scale(this.player.speed);
-        this.player.interactField.body.velocity.normalize().scale(this.player.speed);
+        susanBody.velocity.normalize().scale(this.susan.speed);
+        this.susan.interactField.body.velocity.normalize().scale(this.susan.speed);
 
-        blackyBody.setVelocity(0);
-        blackyBody.velocity.normalize().scale(this.blacky.speed);
+        if (time > this.delay) {
+            this.blacky.wander(50);
+            this.delay = time + 3000;
+        }
     }
 }
