@@ -1,8 +1,15 @@
 import * as phaser from 'phaser';
-import { wander, animalConfigs } from '../util/characters';
+import { ChickenSprite } from '../sprites/Chicken';
+import { wander } from '../util/sprites';
+import { BlackySprite } from '../sprites/Blacky';
+import { BrunoSprite } from '../sprites/Bruno';
+import { AgnesSprite } from '../sprites/Agnes';
+import { NalaSprite } from '../sprites/Nala';
+import { MikaSprite } from '../sprites/Mika';
+import { MopsySprite } from '../sprites/Mopsy';
 
 export default class Yard extends phaser.Scene {
-    animals: phaser.Physics.Arcade.Sprite[] = [];
+    sprites: phaser.Physics.Arcade.Sprite[] = [];
     delay!: number;
 
     constructor() {
@@ -66,49 +73,20 @@ export default class Yard extends phaser.Scene {
         world0Layer.setDepth(1);
         belowLayer.setDepth(0);
 
-        for (const config of animalConfigs) {
-            const animalSpawn: any = map.findObject("objects", obj => obj.name === `${config.name}Spawn`);
-            const animal = this.physics.add.sprite(animalSpawn.x, animalSpawn.y, config.spriteSheetName, config.initialFrame);
-            animal.name = config.name;
-            animal.setCollideWorldBounds(true);
-            animal.setScale(config.scale);
-            animal.setDepth(6);
-            this.animals.push(animal);
-
-            this.anims.create({
-                key: `${config.name}Left`,
-                frames: this.anims.generateFrameNumbers(config.spriteSheetName, { start: config.leftStartFrame, end: config.leftEndFrame }),
-                frameRate: 10,
-                repeat: -1
-            });
-
-            this.anims.create({
-                key: `${config.name}Turn`,
-                frames: [{ key: config.spriteSheetName, frame: config.turnFrame }],
-                frameRate: 20
-            });
-
-            this.anims.create({
-                key: `${config.name}Right`,
-                frames: this.anims.generateFrameNumbers(config.spriteSheetName, { start: config.rightStartFrame, end: config.rightEndFrame }),
-                frameRate: 10,
-                repeat: -1
-            });
-
-            this.anims.create({
-                key: `${config.name}Up`,
-                frames: this.anims.generateFrameNumbers(config.spriteSheetName, { start: config.upStartFrame, end: config.upEndFrame }),
-                frameRate: 10,
-                repeat: -1
-            });
-
-            this.anims.create({
-                key: `${config.name}Down`,
-                frames: this.anims.generateFrameNumbers(config.spriteSheetName, { start: config.downStartFrame, end: config.downEndFrame }),
-                frameRate: 10,
-                repeat: -1
-            });
-        }
+        this.sprites.push(
+            new ChickenSprite('helena', this, map, 'helenaSpawn', 1.5, 6, 50),
+            new ChickenSprite('rachel', this, map, 'rachelSpawn', 1.5, 6, 50),
+            new ChickenSprite('krystal', this, map, 'krystalSpawn', 1.5, 6, 50),
+            new ChickenSprite('cosima', this, map, 'cosimaSpawn', 1.5, 6, 50),
+            new ChickenSprite('beth', this, map, 'bethSpawn', 1.5, 6, 50),
+            new ChickenSprite('allison', this, map, 'allisonSpawn', 1.5, 6, 50),
+            new BlackySprite('blacky', this, map, 'blackySpawn', 1, 6, 50),
+            new BrunoSprite('bruno', this, map, 'brunoSpawn', 1, 6, 50),
+            new AgnesSprite('agnes', this, map, 'agnesSpawn', 1, 6, 50),
+            new NalaSprite('nala', this, map, 'nalaSpawn', 1, 6, 50),
+            new MikaSprite('mika', this, map, 'mikaSpawn', 1, 6, 50),
+            new MopsySprite('mopsy', this, map, 'mopsySpawn', 1.5, 6, 50)
+        );
 
         const camera = this.cameras.main;
 
@@ -145,8 +123,8 @@ export default class Yard extends phaser.Scene {
 
     update(time: any, delta: any) {
         if (time > this.delay) {
-            for (const animal of this.animals) {
-                wander(animal, 50);
+            for (const sprite of this.sprites) {
+                wander(sprite, 50);
                 this.delay = time + 3000;
             }
         }

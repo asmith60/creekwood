@@ -1,8 +1,9 @@
 import * as phaser from 'phaser';
-import * as move from '../util/movement';
+import { SusanSprite } from '../sprites/Susan';
+import * as move from '../util/controls';
 
 export default class Yard extends phaser.Scene {
-    player!: phaser.Physics.Arcade.Sprite;
+    player!: SusanSprite;
     cursors: any;
     controls: any;
 
@@ -87,51 +88,14 @@ export default class Yard extends phaser.Scene {
 
         const spawnPoint: any = map.findObject("objects", obj => obj.name === 'spawnPoint');
 
-        this.player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, 'people', 1);
+        this.player = new SusanSprite('susan', this, map, 'susanSpawn', .4, 6, 200);
         this.player.setBodySize(50, 30);
-        this.player.setScale(.4);
         this.player.setOffset(20, 80);
-        this.player.setDepth(6);
-        this.player.setCollideWorldBounds(true);
         this.physics.add.collider(this.player, world4Layer);
         this.physics.add.collider(this.player, world3Layer);
         this.physics.add.collider(this.player, world2Layer);
         this.physics.add.collider(this.player, world1Layer);
         this.physics.add.collider(this.player, world0Layer);
-
-        this.anims.create({
-            key: 'left',
-            frames: this.anims.generateFrameNumbers('people', { start: 13, end: 15 }),
-            frameRate: 10,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'turn',
-            frames: [{ key: 'people', frame: 1 }],
-            frameRate: 20
-        });
-
-        this.anims.create({
-            key: 'right',
-            frames: this.anims.generateFrameNumbers('people', { start: 26, end: 28 }),
-            frameRate: 10,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'up',
-            frames: this.anims.generateFrameNumbers('people', { start: 39, end: 41 }),
-            frameRate: 10,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'down',
-            frames: this.anims.generateFrameNumbers('people', { start: 0, end: 2 }),
-            frameRate: 10,
-            repeat: -1
-        });
 
         const camera = this.cameras.main;
 
@@ -157,6 +121,11 @@ export default class Yard extends phaser.Scene {
         const speed: number = 200;
         // Apply the controls to the camera each update tick of the game
         this.controls.update(delta);
+        this.input.activePointer.updateWorldPoint(this.cameras.main);
+
+        const pointer = this.input.activePointer;
+        const player = this.player;
+        const camera = this.cameras.main;
 
         const body = this.player.body as phaser.Physics.Arcade.Body;
 
@@ -164,43 +133,14 @@ export default class Yard extends phaser.Scene {
         body.setVelocity(0);
 
         // Movement
-        if (this.cursors.left.isDown) {
-            body.setVelocityX(-speed);
-            this.player.anims.play('left', true);
-        } else if (this.cursors.right.isDown) {
-            body.setVelocityX(speed);
-            this.player.anims.play('right', true);
-        } else if (this.cursors.up.isDown) {
-            body.setVelocityY(-speed);
-            this.player.anims.play('up', true);
-        } else if (this.cursors.down.isDown) {
-            body.setVelocityY(speed);
-            this.player.anims.play('down', true);
-        }
-        else if (this.input.activePointer.isDown) {
-            // Update pointer position
-            this.input.activePointer.updateWorldPoint(this.cameras.main);
-
-            const pointer = this.input.activePointer;
-            const player = this.player;
-            const camera = this.cameras.main;
-
-            if (move.mobileLeftCondition(pointer, player, camera)) {
-                body.setVelocityX(-speed);
-                this.player.anims.play('left', true);
-            } else if (move.mobileRightCondition(pointer, player, camera)) {
-                body.setVelocityX(speed);
-                this.player.anims.play('right', true);
-            } else if (move.mobileUpCondition(pointer, player, camera)) {
-                body.setVelocityY(-speed);
-                this.player.anims.play('up', true);
-            } else if (move.mobileDownCondition(pointer, player, camera)) {
-                body.setVelocityY(speed);
-                this.player.anims.play('down', true);
-            } else {
-                this.player.setVelocity(0);
-                this.player.anims.stop();
-            }
+        if (this.cursors.left.isDown || (this.input.activePointer.isDown && move.mobileLeftCondition(pointer, player, camera))) {
+            this.player.moveLeft();
+        } else if (this.cursors.right.isDown || (this.input.activePointer.isDown && move.mobileRightCondition(pointer, player, camera))) {
+            this.player.moveRight();
+        } else if (this.cursors.up.isDown || (this.input.activePointer.isDown && move.mobileUpCondition(pointer, player, camera))) {
+            this.player.moveUp()
+        } else if (this.cursors.down.isDown || (this.input.activePointer.isDown && move.mobileDownCondition(pointer, player, camera))) {
+            this.player.moveDown();
         } else {
             this.player.setVelocity(0);
             this.player.anims.stop();
