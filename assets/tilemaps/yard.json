@@ -138,6 +138,18 @@
                  "width":0,
                  "x":647,
                  "y":741
+                }, 
+                {
+                 "height":0,
+                 "id":3,
+                 "name":"blackySpawn",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":764,
+                 "y":738.5
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -146,7 +158,7 @@
          "y":0
         }],
  "nextlayerid":12,
- "nextobjectid":3,
+ "nextobjectid":4,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.4.2",

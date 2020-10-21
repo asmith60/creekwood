@@ -1,9 +1,11 @@
 import * as phaser from 'phaser';
 import { SusanSprite } from '../sprites/Susan';
+import { BlackySprite } from '../sprites/Blacky';
 import * as move from '../util/controls';
 
 export default class Yard extends phaser.Scene {
     player!: SusanSprite;
+    blacky!: BlackySprite;
     cursors: any;
     controls: any;
 
@@ -60,6 +62,8 @@ export default class Yard extends phaser.Scene {
         world0Layer.setDepth(1);
         belowLayer.setDepth(0);
 
+        const spacebar: phaser.Input.Keyboard.Key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
         // world4Layer.renderDebug(this.add.graphics().setAlpha(0.75), {
         //     tileColor: null, // Color of non-colliding tiles
         //     collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
@@ -86,16 +90,29 @@ export default class Yard extends phaser.Scene {
         //     faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
         // });
 
-        const spawnPoint: any = map.findObject("objects", obj => obj.name === 'spawnPoint');
-
         this.player = new SusanSprite('susan', this, map, 'susanSpawn', .4, 6, 200);
         this.player.setBodySize(50, 30);
-        this.player.setOffset(20, 80);
+        this.player.setOffset(18, 80);
         this.physics.add.collider(this.player, world4Layer);
         this.physics.add.collider(this.player, world3Layer);
         this.physics.add.collider(this.player, world2Layer);
         this.physics.add.collider(this.player, world1Layer);
         this.physics.add.collider(this.player, world0Layer);
+
+        this.blacky = new BlackySprite('blacky', this, map, 'blackySpawn', .5, 5, 300);
+        this.blacky.setBodySize(33, 42);
+        this.blacky.setOffset(9, 30);
+        this.physics.add.collider(this.blacky, world4Layer);
+        this.physics.add.collider(this.blacky, world3Layer);
+        this.physics.add.collider(this.blacky, world2Layer);
+        this.physics.add.collider(this.blacky, world1Layer);
+        this.physics.add.collider(this.blacky, world0Layer);
+        this.physics.add.collider(this.player, this.blacky);
+        this.physics.add.overlap(this.player.interactField, this.blacky, () => {
+            if (phaser.Input.Keyboard.JustDown(spacebar)) {
+                console.log("Interact!!!");
+            };
+        });
 
         const camera = this.cameras.main;
 
@@ -124,10 +141,12 @@ export default class Yard extends phaser.Scene {
 
         const pointer = this.input.activePointer;
         const camera = this.cameras.main;
-        const body = this.player.body as phaser.Physics.Arcade.Body;
+        const susanBody = this.player.body as phaser.Physics.Arcade.Body;
+        const blackyBody = this.blacky.body as phaser.Physics.Arcade.Body;
 
         // Stop any previous movement from the last frame
-        body.setVelocity(0);
+        susanBody.setVelocity(0);
+        this.player.interactField.setVelocity(0);
 
         // Movement
         if (this.cursors.left.isDown || (this.input.activePointer.isDown && move.mobileLeftCondition(pointer, this.player, camera))) {
@@ -144,6 +163,10 @@ export default class Yard extends phaser.Scene {
         }
 
         // Normalize and scale the velocity so that player can't move faster along a diagonal
-        body.velocity.normalize().scale(this.player.speed);
+        susanBody.velocity.normalize().scale(this.player.speed);
+        this.player.interactField.body.velocity.normalize().scale(this.player.speed);
+
+        blackyBody.setVelocity(0);
+        blackyBody.velocity.normalize().scale(this.blacky.speed);
     }
 }
