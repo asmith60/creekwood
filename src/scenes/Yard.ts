@@ -97,6 +97,8 @@ export default class Yard extends phaser.Scene {
         this.physics.add.collider(this.player, world1Layer);
         this.physics.add.collider(this.player, world0Layer);
 
+        // this.physics.world.fixedStep = false;
+
         const camera = this.cameras.main;
 
         // Set up the arrows to control the camera
@@ -123,7 +125,6 @@ export default class Yard extends phaser.Scene {
         this.input.activePointer.updateWorldPoint(this.cameras.main);
 
         const pointer = this.input.activePointer;
-        const player = this.player;
         const camera = this.cameras.main;
         const body = this.player.body as phaser.Physics.Arcade.Body;
 
@@ -131,13 +132,13 @@ export default class Yard extends phaser.Scene {
         body.setVelocity(0);
 
         // Movement
-        if (this.cursors.left.isDown || (this.input.activePointer.isDown && move.mobileLeftCondition(pointer, player, camera))) {
+        if (this.cursors.left.isDown || (this.input.activePointer.isDown && move.mobileLeftCondition(pointer, this.player, camera))) {
             this.player.moveLeft();
-        } else if (this.cursors.right.isDown || (this.input.activePointer.isDown && move.mobileRightCondition(pointer, player, camera))) {
+        } else if (this.cursors.right.isDown || (this.input.activePointer.isDown && move.mobileRightCondition(pointer, this.player, camera))) {
             this.player.moveRight();
-        } else if (this.cursors.up.isDown || (this.input.activePointer.isDown && move.mobileUpCondition(pointer, player, camera))) {
+        } else if (this.cursors.up.isDown || (this.input.activePointer.isDown && move.mobileUpCondition(pointer, this.player, camera))) {
             this.player.moveUp()
-        } else if (this.cursors.down.isDown || (this.input.activePointer.isDown && move.mobileDownCondition(pointer, player, camera))) {
+        } else if (this.cursors.down.isDown || (this.input.activePointer.isDown && move.mobileDownCondition(pointer, this.player, camera))) {
             this.player.moveDown();
         } else {
             this.player.setVelocity(0);

@@ -67,6 +67,38 @@ export abstract class BaseSprite extends phaser.Physics.Arcade.Sprite {
         (this.body as phaser.Physics.Arcade.Body).setVelocityY(speed);
         this.anims.play(`${this.name}Down`, true)
     }
+
+    public turn() {
+        (this.body as phaser.Physics.Arcade.Body).setVelocity(0);
+        this.anims.play(`${this.name}Turn`, true)
+    }
+
+    public stop() {
+        (this.body as phaser.Physics.Arcade.Body).setVelocity(0);
+        this.anims.stop();
+    }
+
+    public wander(speed: number = this.speed) {
+        const body = this.body as phaser.Physics.Arcade.Body;
+        const option: number = Math.floor(Math.random() * Math.floor(5));
+
+        this.stop();
+        body.velocity.normalize().scale(speed);
+
+        if (option === 0) {
+            this.turn();
+        } else if (option === 1) {
+            this.moveLeft(speed);
+        } else if (option === 2) {
+            this.moveRight(speed);
+        } else if (option === 3) {
+            this.moveUp(speed);
+        } else if (option === 4) {
+            this.moveDown(speed);
+        } else {
+            this.stop();
+        }
+    }
 }
 
 export interface AnimationFrames {

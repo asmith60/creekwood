@@ -1,6 +1,5 @@
 import * as phaser from 'phaser';
-import { ChickenSprite } from '../sprites/Chicken';
-import { wander } from '../util/sprites';
+import { BaseSprite } from '../sprites/Base';
 import { BlackySprite } from '../sprites/Blacky';
 import { BrunoSprite } from '../sprites/Bruno';
 import { AgnesSprite } from '../sprites/Agnes';
@@ -15,7 +14,7 @@ import { BethSprite } from '../sprites/Beth';
 import { MopsySprite } from '../sprites/Mopsy';
 
 export default class Yard extends phaser.Scene {
-    sprites: phaser.Physics.Arcade.Sprite[] = [];
+    sprites: BaseSprite[] = [];
     delay!: number;
 
     constructor() {
@@ -130,7 +129,7 @@ export default class Yard extends phaser.Scene {
     update(time: any, delta: any) {
         if (time > this.delay) {
             for (const sprite of this.sprites) {
-                wander(sprite, 50);
+                sprite.wander(50);
                 this.delay = time + 3000;
             }
         }
