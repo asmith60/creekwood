@@ -97,8 +97,6 @@ export default class Yard extends phaser.Scene {
         this.physics.add.collider(this.player, world1Layer);
         this.physics.add.collider(this.player, world0Layer);
 
-        // this.physics.world.fixedStep = false;
-
         const camera = this.cameras.main;
 
         // Set up the arrows to control the camera

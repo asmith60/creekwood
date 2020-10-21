@@ -16,6 +16,9 @@ const config: phaser.Types.Core.GameConfig = {
             gravity: { y: 0 }
         }
     },
+    render: {
+        pixelArt: true
+    },
     scene: [
         Title,
         Yard
