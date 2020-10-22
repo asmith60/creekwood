@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="104" height="102" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="5">
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="104" height="102" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="9">
  <editorsettings>
   <export target="yard.json" format="json"/>
  </editorsettings>
@@ -9579,7 +9579,16 @@
   <object id="3" name="blackySpawn" x="764" y="738.5">
    <point/>
   </object>
-  <object id="4" name="brunoSpawn" x="326.5" y="1214">
+  <object id="4" name="brunoSpawn" x="902.5" y="1322.5">
+   <point/>
+  </object>
+  <object id="5" name="mopsySpawn" x="850.5" y="112">
+   <point/>
+  </object>
+  <object id="6" name="adamSpawn" x="1511" y="133.5">
+   <point/>
+  </object>
+  <object id="8" name="irisSpawn" x="1473" y="134.5">
    <point/>
   </object>
  </objectgroup>

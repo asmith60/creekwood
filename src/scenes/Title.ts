@@ -14,7 +14,7 @@ import { BethSprite } from '../sprites/Beth';
 import { MopsySprite } from '../sprites/Mopsy';
 
 export default class Yard extends phaser.Scene {
-    sprites: BaseSprite[] = [];
+    allSprites!: phaser.GameObjects.Group;
     delay!: number;
 
     constructor() {
@@ -32,7 +32,9 @@ export default class Yard extends phaser.Scene {
         this.load.image('terrain', 'assets/tilesets/terrain.png');
         this.load.image('omega', 'assets/tilesets/omega.png');
         this.load.image('jungle', 'assets/tilesets/jungle.png');
-        this.load.spritesheet('people', 'assets/sprites/people.png', { frameWidth: 72, frameHeight: 110 });
+        this.load.spritesheet('people0', 'assets/sprites/people0.png', { frameWidth: 72, frameHeight: 110 });
+        this.load.spritesheet('people1', 'assets/sprites/people1.png', { frameWidth: 77, frameHeight: 110 });
+        this.load.spritesheet('people2', 'assets/sprites/people2.png', { frameWidth: 106, frameHeight: 110 });
         this.load.spritesheet('pets', 'assets/sprites/pets.png', { frameWidth: 52, frameHeight: 72 });
         this.load.spritesheet('rabbits', 'assets/sprites/rabbits.png', { frameWidth: 42, frameHeight: 39 });
         this.load.spritesheet('chickens', 'assets/sprites/chickens.png', { frameWidth: 42, frameHeight: 39 });
@@ -78,7 +80,7 @@ export default class Yard extends phaser.Scene {
         world0Layer.setDepth(1);
         belowLayer.setDepth(0);
 
-        this.sprites.push(
+        this.allSprites = this.add.group([
             new HelenaSprite('helena', this, map, 'helenaSpawn', 1.5, 6, 50),
             new RachelSprite('rachel', this, map, 'rachelSpawn', 1.5, 6, 50),
             new KrystalSprite('krystal', this, map, 'krystalSpawn', 1.5, 6, 50),
@@ -91,7 +93,7 @@ export default class Yard extends phaser.Scene {
             new NalaSprite('nala', this, map, 'nalaSpawn', 1, 6, 50),
             new MikaSprite('mika', this, map, 'mikaSpawn', 1, 6, 50),
             new MopsySprite('mopsy', this, map, 'mopsySpawn', 1.5, 6, 50)
-        );
+        ]);
 
         const camera = this.cameras.main;
 
@@ -128,8 +130,8 @@ export default class Yard extends phaser.Scene {
 
     update(time: any, delta: any) {
         if (time > this.delay) {
-            for (const sprite of this.sprites) {
-                sprite.wander(50);
+            for (const sprite of this.allSprites.getChildren()) {
+                (sprite as BaseSprite).moveWander(50);
                 this.delay = time + 3000;
             }
         }

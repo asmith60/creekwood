@@ -1,13 +1,26 @@
 import * as phaser from 'phaser';
 import { SusanSprite } from '../sprites/Susan';
+import { AdamSprite } from '../sprites/Adam';
+import { IrisSprite } from '../sprites/Iris';
 import { BlackySprite } from '../sprites/Blacky';
 import { BrunoSprite } from '../sprites/Bruno';
+import { MopsySprite } from '../sprites/Mopsy';
+import { CoopBreakQuest } from '../quests/CoopBreak';
 import * as move from '../util/controls';
 
 export default class Yard extends phaser.Scene {
+    state: {} = {};
     susan!: SusanSprite;
+    adam!: AdamSprite;
+    iris!: IrisSprite;
     blacky!: BlackySprite;
     bruno!: BrunoSprite;
+    mopsy!: MopsySprite;
+    allSprites!: phaser.GameObjects.Group;
+    npcSprites!: phaser.GameObjects.Group;
+    dogSprites!: phaser.GameObjects.Group;
+    chickenSprites!: phaser.GameObjects.Group;
+    coopBreakQuest!: CoopBreakQuest;
     delay: number = 0;
     cursors: any;
     controls: any;
@@ -24,9 +37,8 @@ export default class Yard extends phaser.Scene {
 
     create() {
         console.log('create');
+        // Setup world
         const map = this.make.tilemap({ key: 'yard' });
-        // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
-        // Phaser's cache (i.e. the name you used in preload)
         const cars = map.addTilesetImage('cars');
         const chairs = map.addTilesetImage('chairs');
         const farm = map.addTilesetImage('farm');
@@ -40,7 +52,6 @@ export default class Yard extends phaser.Scene {
 
         this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
-        // Parameters: layer name (or index) from Tiled, tileset, x, y
         const above1Layer = map.createDynamicLayer('above1', allTilesets, 0, 0);
         const above0Layer = map.createDynamicLayer('above0', allTilesets, 0, 0);
         const world4Layer = map.createDynamicLayer('world4', allTilesets, 0, 0);
@@ -64,8 +75,6 @@ export default class Yard extends phaser.Scene {
         world1Layer.setDepth(2);
         world0Layer.setDepth(1);
         belowLayer.setDepth(0);
-
-        const spacebar: phaser.Input.Keyboard.Key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
         // world4Layer.renderDebug(this.add.graphics().setAlpha(0.75), {
         //     tileColor: null, // Color of non-colliding tiles
@@ -93,34 +102,65 @@ export default class Yard extends phaser.Scene {
         //     faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
         // });
 
-        const spriteGroup = this.add.group();
+        // Add spacebar for interaction
+        const spacebar: phaser.Input.Keyboard.Key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        // Setup sprites
+        this.allSprites = this.add.group();
+        this.npcSprites = this.add.group();
+        this.dogSprites = this.add.group();
 
         this.susan = new SusanSprite('susan', this, map, 'susanSpawn', .4, 6, 200);
         this.susan.setBodySize(50, 30);
         this.susan.setOffset(18, 80);
-        spriteGroup.add(this.susan);
-
-        this.blacky = new BlackySprite('blacky', this, map, 'blackySpawn', .5, 5, 300);
-        this.blacky.setBodySize(33, 42);
-        this.blacky.setOffset(9, 30);
-        this.physics.add.collider(this.susan, this.blacky);
-        this.physics.add.overlap(this.susan.interactField, this.blacky, () => {
+        this.physics.add.overlap(this.susan.interactField, this.npcSprites, (susan, other) => {
             if (phaser.Input.Keyboard.JustDown(spacebar)) {
-                console.log("Interact!!!");
+                console.log(`Interacted with ${other.name}`);
             };
         });
-        spriteGroup.add(this.blacky);
+        this.allSprites.add(this.susan);
 
-        this.physics.add.collider(spriteGroup, world4Layer);
-        this.physics.add.collider(spriteGroup, world3Layer);
-        this.physics.add.collider(spriteGroup, world2Layer);
-        this.physics.add.collider(spriteGroup, world1Layer);
-        this.physics.add.collider(spriteGroup, world0Layer);
-        this.physics.add.collider(spriteGroup, spriteGroup);
+        this.adam = new AdamSprite('adam', this, map, 'adamSpawn', .4, 5, 200);
+        this.adam.setBodySize(55, 90);
+        this.adam.setOffset(17, 10);
+        this.allSprites.add(this.adam);
+        this.npcSprites.add(this.adam);
 
+        this.iris = new IrisSprite('iris', this, map, 'irisSpawn', .4, 5, 200);
+        this.iris.setBodySize(45, 50);
+        this.iris.setOffset(5, 25);
+        this.allSprites.add(this.iris);
+        this.npcSprites.add(this.iris);
+
+        this.blacky = new BlackySprite('blacky', this, map, 'blackySpawn', .5, 5, 50);
+        this.blacky.setBodySize(33, 42);
+        this.blacky.setOffset(9, 30);
+        this.allSprites.add(this.blacky);
+        this.npcSprites.add(this.blacky);
+        this.dogSprites.add(this.blacky);
+
+        this.bruno = new BrunoSprite('bruno', this, map, 'brunoSpawn', .5, 5, 50);
+        this.bruno.setBodySize(33, 35);
+        this.bruno.setOffset(9, 35);
+        this.allSprites.add(this.bruno);
+        this.npcSprites.add(this.bruno);
+        this.dogSprites.add(this.bruno);
+
+        this.mopsy = new MopsySprite('mopsy', this, map, 'mopsySpawn', 1, 5, 50);
+        this.mopsy.setBodySize(15, 15);
+        this.allSprites.add(this.mopsy);
+        this.npcSprites.add(this.mopsy);
+
+        this.physics.add.collider(this.allSprites, world4Layer);
+        this.physics.add.collider(this.allSprites, world3Layer);
+        this.physics.add.collider(this.allSprites, world2Layer);
+        this.physics.add.collider(this.allSprites, world1Layer);
+        this.physics.add.collider(this.allSprites, world0Layer);
+        this.physics.add.collider(this.npcSprites, this.allSprites);
+
+        // Setup camera and movement controls
         const camera = this.cameras.main;
 
-        // Set up the arrows to control the camera
         this.cursors = this.input.keyboard.createCursorKeys();
         this.controls = new phaser.Cameras.Controls.FixedKeyControl({
             camera: camera,
@@ -133,26 +173,31 @@ export default class Yard extends phaser.Scene {
 
         camera.startFollow(this.susan);
         camera.setZoom(2);
-        // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
         camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         camera.fadeIn(2000, 0, 0, 0);
+
+        //Setup quests
+        this.coopBreakQuest = new CoopBreakQuest();
     }
 
     update(time: any, delta: any) {
         // Apply the controls to the camera each update tick of the game
         this.controls.update(delta);
-        this.input.activePointer.updateWorldPoint(this.cameras.main);
 
+        // Convenience vars
         const pointer = this.input.activePointer;
         const camera = this.cameras.main;
         const susanBody = this.susan.body as phaser.Physics.Arcade.Body;
-        const blackyBody = this.blacky.body as phaser.Physics.Arcade.Body;
+
+        // Update pointer location
+        this.input.activePointer.updateWorldPoint(this.cameras.main);
 
         // Stop any previous movement from the last frame
         susanBody.setVelocity(0);
         this.susan.interactField.setVelocity(0);
 
-
+        // Run this every update tick
+        this.susan.everyTick();
 
         // Movement
         if (this.cursors.left.isDown || (this.input.activePointer.isDown && move.mobileLeftCondition(pointer, this.susan, camera))) {
@@ -172,9 +217,20 @@ export default class Yard extends phaser.Scene {
         susanBody.velocity.normalize().scale(this.susan.speed);
         this.susan.interactField.body.velocity.normalize().scale(this.susan.speed);
 
+        // Everything that runs on the default delay
         if (time > this.delay) {
-            this.blacky.wander(50);
+            this.blacky.moveWander(50);
+            this.bruno.moveLeftRight(250);
+            this.mopsy.moveSquare(30);
             this.delay = time + 3000;
+        }
+
+        // Coop Break Quest
+        if (this.coopBreakQuest.shouldActivate(this)) {
+            this.coopBreakQuest.activate(this);
+        };
+        if (this.coopBreakQuest.state === 'ACTIVE') {
+
         }
     }
 }

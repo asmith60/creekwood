@@ -1,6 +1,9 @@
 import * as phaser from 'phaser';
 
 export abstract class BaseSprite extends phaser.Physics.Arcade.Sprite {
+    moveUpDownSwitch: boolean = true;
+    moveLeftRightSwitch: boolean = true;
+    moveSquareSwitch: number = 0;
     speed: number;
     constructor(name: string, scene: phaser.Scene, map: phaser.Tilemaps.Tilemap, spawn: string, scale: number, depth: number, key: string, speed: number, animationFrames: AnimationFrames) {
         super(scene, (map.findObject("objects", obj => obj.name === spawn) as any).x, (map.findObject("objects", obj => obj.name === spawn) as any).y, key, animationFrames.initialFrame);
@@ -79,7 +82,7 @@ export abstract class BaseSprite extends phaser.Physics.Arcade.Sprite {
         this.anims.stop();
     }
 
-    public wander(speed: number = this.speed) {
+    public moveWander(speed: number = this.speed) {
         const body = this.body as phaser.Physics.Arcade.Body;
         const option: number = Math.floor(Math.random() * Math.floor(5));
 
@@ -96,6 +99,59 @@ export abstract class BaseSprite extends phaser.Physics.Arcade.Sprite {
             this.moveUp(speed);
         } else if (option === 4) {
             this.moveDown(speed);
+        } else {
+            this.stop();
+        }
+    }
+
+    public moveUpDown(speed: number = this.speed) {
+        const body = this.body as phaser.Physics.Arcade.Body;
+
+        this.stop();
+        body.velocity.normalize().scale(speed);
+
+        if (this.moveUpDownSwitch) {
+            this.moveUp(speed);
+            this.moveUpDownSwitch = false;
+        } else {
+            this.moveDown(speed);
+            this.moveUpDownSwitch = true;
+        }
+    }
+
+    public moveLeftRight(speed: number = this.speed) {
+        const body = this.body as phaser.Physics.Arcade.Body;
+
+        this.stop();
+        body.velocity.normalize().scale(speed);
+
+        if (this.moveLeftRightSwitch) {
+            this.moveRight(speed);
+            this.moveLeftRightSwitch = false;
+        } else {
+            this.moveLeft(speed);
+            this.moveLeftRightSwitch = true;
+        }
+    }
+
+    public moveSquare(speed: number = this.speed) {
+        const body = this.body as phaser.Physics.Arcade.Body;
+
+        this.stop();
+        body.velocity.normalize().scale(speed);
+
+        if (this.moveSquareSwitch === 0) {
+            this.moveDown(speed);
+            this.moveSquareSwitch = 1;
+        } else if (this.moveSquareSwitch === 1) {
+            this.moveRight(speed);
+            this.moveSquareSwitch = 2;
+        } else if (this.moveSquareSwitch === 2) {
+            this.moveUp(speed);
+            this.moveSquareSwitch = 3;
+        } else if (this.moveSquareSwitch === 3) {
+            this.moveLeft(speed);
+            this.moveSquareSwitch = 0;
         } else {
             this.stop();
         }
