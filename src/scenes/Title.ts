@@ -120,7 +120,7 @@ export default class Title extends phaser.Scene {
 
         this.delay = 3000;
 
-        this.add.text(275, 650, 'Press any button to begin', {
+        this.add.text(275, 600, 'Directional keys to move\nSpacebar to interact\n\nPress any button to begin', {
             font: {
                 fontSize: '30px',
                 fontFamily: '"Lucida Console", Monaco, monospace'
@@ -128,7 +128,7 @@ export default class Title extends phaser.Scene {
             fill: '#ffffff',
             padding: { x: 20, y: 10 },
             backgroundColor: 'transparent',
-
+            textAlign: 'center'
         });
 
         this.input.keyboard.on('keydown', () => {
