@@ -13,7 +13,7 @@ export default class PreTitle extends phaser.Scene {
     preload() { }
 
     create() {
-        this.add.text(170, 300, 'Press any button to initialize game', {
+        this.add.text(170, 300, 'Use the directional keys to move\nUse the spacebar to interact with the world\n\n\n\nPress any button to initialize game', {
             font: {
                 fontSize: '30px',
                 fontFamily: '"Lucida Console", Monaco, monospace'
