@@ -60,7 +60,13 @@ export class CoopBreakQuest extends BaseQuest {
             this.chickensCaught++;
             console.log(`Total chickens caught is ${this.chickensCaught}`);
             (chicken as ChickenSprite).cluck(scene);
-            const text = scene.add.text((scene as any).susan.body.x - 150, (scene as any).susan.body.y - 30, `You caught ${chicken.name}`, {
+            let message: string;
+            if (this.chickensCaught !== 6) {
+                message = `You caught ${chicken.name}`;
+            } else {
+                message = `You caught ${chicken.name}\nThat's all of them!`;
+            }
+            const text = scene.add.text((scene as any).susan.body.x - 150, (scene as any).susan.body.y - 30, message, {
                 font: {
                     fontSize: '12px',
                     fontFamily: '"Lucida Console", Monaco, monospace'
