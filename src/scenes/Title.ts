@@ -118,8 +118,6 @@ export default class Title extends phaser.Scene {
         // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
         camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
-        camera.fadeIn(2000, 0, 0, 0);
-
         this.delay = 3000;
 
         this.add.text(275, 650, 'Press any button to begin', {
