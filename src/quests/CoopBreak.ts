@@ -62,7 +62,7 @@ export class CoopBreakQuest extends BaseQuest {
             (chicken as ChickenSprite).cluck(scene);
             let message: string;
             if (this.chickensCaught !== 6) {
-                message = `You caught ${chicken.name}`;
+                message = `You caught ${chicken.name}\nThere are ${6 - this.chickensCaught} left`;
             } else {
                 message = `You caught ${chicken.name}\nThat's all of them!`;
             }
