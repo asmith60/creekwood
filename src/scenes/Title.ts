@@ -48,6 +48,7 @@ export default class Title extends phaser.Scene {
         this.load.audio('iristalk0', 'assets/audio/iristalk0.m4a');
         this.load.audio('iristalk1', 'assets/audio/iristalk1.m4a');
         this.load.audio('iristalk2', 'assets/audio/iristalk2.m4a');
+        this.load.audio('iristalk3', 'assets/audio/iristalk3.m4a');
     }
 
     create() {

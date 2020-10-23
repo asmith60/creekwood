@@ -188,6 +188,33 @@ export default class Yard extends phaser.Scene {
         this.physics.add.collider(this.allSprites, world0Layer);
         this.physics.add.collider(this.npcSprites, this.allSprites);
 
+        const frontDoorLocation: any = map.findObject("objects", obj => obj.name === 'frontDoor');
+        const frontDoor: phaser.Physics.Arcade.Sprite = this.physics.add.sprite(frontDoorLocation.x, frontDoorLocation.y, 'people0', 1);
+        frontDoor.setBodySize(20, 20);
+        frontDoor.setOffset(27, 35);
+        frontDoor.setAlpha(0);
+        this.physics.add.overlap(this.susan.interactField, frontDoor, () => {
+            if (phaser.Input.Keyboard.JustDown(this.spaceBar)) {
+                const text = this.add.text(this.susan.body.x - 150, this.susan.body.y + 30, 'I should really finish up outside', {
+                    font: {
+                        fontSize: '12px',
+                        fontFamily: '"Lucida Console", Monaco, monospace'
+                    },
+                    fill: '#ffffff',
+                    padding: { x: 20, y: 10 },
+                    backgroundColor: 'transparent',
+
+                });
+
+                text.depth = 10;
+
+                this.time.delayedCall(5000, () => {
+                    text.destroy()
+                }, [], this);
+            };
+        });
+
+
         // Setup camera and movement controls
         const camera = this.cameras.main;
 
@@ -286,6 +313,8 @@ export default class Yard extends phaser.Scene {
             (sprite as BrunoSprite).bark(this);
         } else if (sprite.name === 'iris') {
             (sprite as IrisSprite).talk(this);
+        } else if (sprite.name === 'mopsy') {
+            (sprite as MopsySprite).interact(this);
         } else if (sprite.name === 'adam') {
             (sprite as AdamSprite).talk(this);
         }
