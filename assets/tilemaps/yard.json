@@ -184,8 +184,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":1511,
-                 "y":133.5
+                 "x":1448.5,
+                 "y":131
                 }, 
                 {
                  "height":0,
@@ -196,8 +196,80 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":1473,
-                 "y":134.5
+                 "x":1520,
+                 "y":131.5
+                }, 
+                {
+                 "height":0,
+                 "id":10,
+                 "name":"helenaSpawn",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":1364.5,
+                 "y":509.5
+                }, 
+                {
+                 "height":0,
+                 "id":11,
+                 "name":"bethSpawn",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":961.5,
+                 "y":999
+                }, 
+                {
+                 "height":0,
+                 "id":12,
+                 "name":"krystalSpawn",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":494,
+                 "y":1232
+                }, 
+                {
+                 "height":0,
+                 "id":13,
+                 "name":"cosimaSpawn",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":388.5,
+                 "y":203.5
+                }, 
+                {
+                 "height":0,
+                 "id":14,
+                 "name":"rachelSpawn",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":705.5,
+                 "y":377.5
+                }, 
+                {
+                 "height":0,
+                 "id":15,
+                 "name":"allisonSpawn",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":515,
+                 "y":702.5
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -206,7 +278,7 @@
          "y":0
         }],
  "nextlayerid":12,
- "nextobjectid":9,
+ "nextobjectid":16,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.4.2",

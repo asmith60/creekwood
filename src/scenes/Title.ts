@@ -13,7 +13,7 @@ import { AllisonSprite } from '../sprites/Allison';
 import { BethSprite } from '../sprites/Beth';
 import { MopsySprite } from '../sprites/Mopsy';
 
-export default class Yard extends phaser.Scene {
+export default class Title extends phaser.Scene {
     allSprites!: phaser.GameObjects.Group;
     delay!: number;
 
@@ -40,6 +40,14 @@ export default class Yard extends phaser.Scene {
         this.load.spritesheet('chickens', 'assets/sprites/chickens.png', { frameWidth: 42, frameHeight: 39 });
         this.load.tilemapTiledJSON('yard', 'assets/tilemaps/yard.json');
         this.load.tilemapTiledJSON('title', 'assets/tilemaps/title.json');
+        this.load.audio('yardmusic', 'assets/audio/yardmusic.wav');
+        this.load.audio('titlemusic', 'assets/audio/titlemusic.m4a');
+        this.load.audio('blackybark', 'assets/audio/blackybark.m4a');
+        this.load.audio('brunobark', 'assets/audio/brunobark.m4a');
+        this.load.audio('chickencluck', 'assets/audio/chickencluck.mp3');
+        this.load.audio('iristalk0', 'assets/audio/iristalk0.m4a');
+        this.load.audio('iristalk1', 'assets/audio/iristalk1.m4a');
+        this.load.audio('iristalk2', 'assets/audio/iristalk2.m4a');
     }
 
     create() {
@@ -95,6 +103,11 @@ export default class Yard extends phaser.Scene {
             new MopsySprite('mopsy', this, map, 'mopsySpawn', 1.5, 6, 50)
         ]);
 
+        const music = this.sound.add('titlemusic');
+        music.play({
+            loop: true
+        });
+
         const camera = this.cameras.main;
 
         camera.scrollX = 25;
@@ -103,6 +116,8 @@ export default class Yard extends phaser.Scene {
 
         // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
         camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+
+        camera.fadeIn(2000, 0, 0, 0);
 
         this.delay = 3000;
 
@@ -124,6 +139,7 @@ export default class Yard extends phaser.Scene {
         this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
             this.time.delayedCall(1000, () => {
                 this.scene.start('Yard');
+                music.stop();
             });
         });
     }

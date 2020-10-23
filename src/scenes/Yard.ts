@@ -1,20 +1,33 @@
 import * as phaser from 'phaser';
+import { BaseSprite } from '../sprites/Base';
 import { SusanSprite } from '../sprites/Susan';
 import { AdamSprite } from '../sprites/Adam';
 import { IrisSprite } from '../sprites/Iris';
 import { BlackySprite } from '../sprites/Blacky';
 import { BrunoSprite } from '../sprites/Bruno';
+import { HelenaSprite } from '../sprites/Helena';
+import { RachelSprite } from '../sprites/Rachel';
+import { KrystalSprite } from '../sprites/Krystal';
+import { CosimaSprite } from '../sprites/Cosima';
+import { AllisonSprite } from '../sprites/Allison';
+import { BethSprite } from '../sprites/Beth';
 import { MopsySprite } from '../sprites/Mopsy';
 import { CoopBreakQuest } from '../quests/CoopBreak';
 import * as move from '../util/controls';
 
 export default class Yard extends phaser.Scene {
-    state: {} = {};
+    state: any = {};
     susan!: SusanSprite;
     adam!: AdamSprite;
     iris!: IrisSprite;
     blacky!: BlackySprite;
     bruno!: BrunoSprite;
+    helena!: HelenaSprite;
+    krystal!: KrystalSprite;
+    rachel!: RachelSprite;
+    beth!: BethSprite;
+    cosima!: CosimaSprite;
+    allison!: AllisonSprite;
     mopsy!: MopsySprite;
     allSprites!: phaser.GameObjects.Group;
     npcSprites!: phaser.GameObjects.Group;
@@ -24,6 +37,9 @@ export default class Yard extends phaser.Scene {
     delay: number = 0;
     cursors: any;
     controls: any;
+    map!: phaser.Tilemaps.Tilemap;
+    spaceBar!: phaser.Input.Keyboard.Key
+    sKey!: phaser.Input.Keyboard.Key
 
     constructor() {
         super({
@@ -39,6 +55,7 @@ export default class Yard extends phaser.Scene {
         console.log('create');
         // Setup world
         const map = this.make.tilemap({ key: 'yard' });
+        this.map = map;
         const cars = map.addTilesetImage('cars');
         const chairs = map.addTilesetImage('chairs');
         const farm = map.addTilesetImage('farm');
@@ -47,6 +64,8 @@ export default class Yard extends phaser.Scene {
         const terrain = map.addTilesetImage('terrain');
         const omega = map.addTilesetImage('omega');
         const jungle = map.addTilesetImage('jungle');
+
+        this.sound.add('blackybark');
 
         const allTilesets = [cars, chairs, farm, modern, outside, terrain, omega, jungle];
 
@@ -102,20 +121,31 @@ export default class Yard extends phaser.Scene {
         //     faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
         // });
 
+        // Setup music
+        const music = this.sound.add('yardmusic', {
+            volume: 0.1
+        });
+        music.play({
+            loop: true
+        });
+
         // Add spacebar for interaction
-        const spacebar: phaser.Input.Keyboard.Key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.sKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
 
         // Setup sprites
         this.allSprites = this.add.group();
         this.npcSprites = this.add.group();
         this.dogSprites = this.add.group();
+        this.chickenSprites = this.add.group();
 
         this.susan = new SusanSprite('susan', this, map, 'susanSpawn', .4, 6, 200);
         this.susan.setBodySize(50, 30);
         this.susan.setOffset(18, 80);
         this.physics.add.overlap(this.susan.interactField, this.npcSprites, (susan, other) => {
-            if (phaser.Input.Keyboard.JustDown(spacebar)) {
+            if (phaser.Input.Keyboard.JustDown(this.spaceBar)) {
                 console.log(`Interacted with ${other.name}`);
+                this.interactions(other as BaseSprite);
             };
         });
         this.allSprites.add(this.susan);
@@ -178,6 +208,23 @@ export default class Yard extends phaser.Scene {
 
         //Setup quests
         this.coopBreakQuest = new CoopBreakQuest();
+
+        const text = this.add.text(this.susan.body.x - 150, this.susan.body.y - 30, 'Adam was looking for you.\nIt sounded important.\nI think he and Iris are playing near the shed.', {
+            font: {
+                fontSize: '12px',
+                fontFamily: '"Lucida Console", Monaco, monospace'
+            },
+            fill: '#ffffff',
+            padding: { x: 20, y: 10 },
+            backgroundColor: 'transparent',
+
+        });
+
+        text.depth = 10;
+
+        this.time.delayedCall(10000, () => {
+            text.destroy()
+        }, [], this);
     }
 
     update(time: any, delta: any) {
@@ -198,19 +245,19 @@ export default class Yard extends phaser.Scene {
 
         // Run this every update tick
         this.susan.everyTick();
+        this.blacky.everyTick(this);
 
         // Movement
         if (this.cursors.left.isDown || (this.input.activePointer.isDown && move.mobileLeftCondition(pointer, this.susan, camera))) {
-            this.susan.moveLeft();
+            this.susan.moveLeftWithBlacky(this.susan.speed, this);
         } else if (this.cursors.right.isDown || (this.input.activePointer.isDown && move.mobileRightCondition(pointer, this.susan, camera))) {
-            this.susan.moveRight();
+            this.susan.moveRightWithBlacky(this.susan.speed, this);
         } else if (this.cursors.up.isDown || (this.input.activePointer.isDown && move.mobileUpCondition(pointer, this.susan, camera))) {
-            this.susan.moveUp()
+            this.susan.moveUpWithBlacky(this.susan.speed, this);
         } else if (this.cursors.down.isDown || (this.input.activePointer.isDown && move.mobileDownCondition(pointer, this.susan, camera))) {
-            this.susan.moveDown();
+            this.susan.moveDownWithBlacky(this.susan.speed, this);
         } else {
-            this.susan.setVelocity(0);
-            this.susan.anims.stop();
+            this.susan.stopWithBlacky(this);
         }
 
         // Normalize and scale the velocity so that player can't move faster along a diagonal
@@ -219,18 +266,28 @@ export default class Yard extends phaser.Scene {
 
         // Everything that runs on the default delay
         if (time > this.delay) {
-            this.blacky.moveWander(50);
+            if (!this.blacky.following) {
+                this.blacky.moveWander(50);
+            }
             this.bruno.moveLeftRight(250);
             this.mopsy.moveSquare(30);
+            this.coopBreakQuest.chickenWander(this);
             this.delay = time + 3000;
         }
 
         // Coop Break Quest
-        if (this.coopBreakQuest.shouldActivate(this)) {
-            this.coopBreakQuest.activate(this);
-        };
-        if (this.coopBreakQuest.state === 'ACTIVE') {
+        this.coopBreakQuest.everyTick(this);
+    }
 
+    interactions(sprite: BaseSprite) {
+        if (sprite.name === 'blacky') {
+            (sprite as BlackySprite).bark(this);
+        } else if (sprite.name === 'bruno') {
+            (sprite as BrunoSprite).bark(this);
+        } else if (sprite.name === 'iris') {
+            (sprite as IrisSprite).talk(this);
+        } else if (sprite.name === 'adam') {
+            (sprite as AdamSprite).talk(this);
         }
     }
 }

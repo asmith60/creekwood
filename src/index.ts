@@ -1,4 +1,5 @@
 import * as phaser from 'phaser';
+import PreTitle from './scenes/PreTitle';
 import Title from './scenes/Title';
 import Yard from './scenes/Yard';
 
@@ -12,7 +13,7 @@ const config: phaser.Types.Core.GameConfig = {
     physics: {
         default: "arcade",
         arcade: {
-            debug: true,
+            debug: false,
             gravity: { y: 0 }
         }
     },
@@ -20,6 +21,7 @@ const config: phaser.Types.Core.GameConfig = {
         pixelArt: true
     },
     scene: [
+        PreTitle,
         Title,
         Yard
     ]

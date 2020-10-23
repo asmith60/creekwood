@@ -16,4 +16,18 @@ export class IrisSprite extends PersonSprite {
             downEndFrame: 0
         });
     }
+
+    public talk(scene: phaser.Scene) {
+        const option: number = Math.floor(Math.random() * Math.floor(3));
+
+        if (option === 0) {
+            scene.sound.play('iristalk0');
+        } else if (option === 1) {
+            scene.sound.play('iristalk1', {
+                volume: 1
+            });
+        } else if (option === 2) {
+            scene.sound.play('iristalk2');
+        }
+    }
 }

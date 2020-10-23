@@ -16,4 +16,8 @@ export class BrunoSprite extends DogSprite {
             downEndFrame: 11
         });
     }
+
+    public bark(scene: phaser.Scene) {
+        scene.sound.play('brunobark');
+    }
 }
