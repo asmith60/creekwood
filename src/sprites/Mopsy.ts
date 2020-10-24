@@ -1,6 +1,7 @@
 import * as phaser from 'phaser';
 import { RabbitSprite } from './Rabbit';
 import Yard from '../scenes/Yard';
+import { displayText } from '../util/text';
 
 export class MopsySprite extends RabbitSprite {
     constructor(name: string, scene: phaser.Scene, map: phaser.Tilemaps.Tilemap, spawn: string, scale: number, depth: number, speed: number) {
@@ -19,21 +20,6 @@ export class MopsySprite extends RabbitSprite {
     }
 
     interact(scene: Yard) {
-        const text = scene.add.text(scene.susan.body.x - 150, scene.susan.body.y + 30, 'Mopsy seems to be enjoying the garden', {
-            font: {
-                fontSize: '12px',
-                fontFamily: '"Lucida Console", Monaco, monospace'
-            },
-            fill: '#ffffff',
-            padding: { x: 20, y: 10 },
-            backgroundColor: 'transparent',
-
-        });
-
-        text.depth = 10;
-
-        scene.time.delayedCall(5000, () => {
-            text.destroy()
-        }, [], this);
+        displayText(scene, 'Mopsy seems to be enjoying the garden', scene.susan.body.x - 150, scene.susan.body.y + 30, 5000);
     }
 }

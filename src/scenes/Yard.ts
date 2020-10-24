@@ -1,4 +1,5 @@
 import * as phaser from 'phaser';
+import { BaseScene } from './Base';
 import { BaseSprite } from '../sprites/Base';
 import { SusanSprite } from '../sprites/Susan';
 import { AdamSprite } from '../sprites/Adam';
@@ -14,8 +15,9 @@ import { BethSprite } from '../sprites/Beth';
 import { MopsySprite } from '../sprites/Mopsy';
 import { CoopBreakQuest } from '../quests/CoopBreak';
 import * as move from '../util/controls';
+import { displayText } from '../util/text';
 
-export default class Yard extends phaser.Scene {
+export default class YardScene extends BaseScene {
     state: any = {};
     susan!: SusanSprite;
     adam!: AdamSprite;
@@ -42,9 +44,7 @@ export default class Yard extends phaser.Scene {
     sKey!: phaser.Input.Keyboard.Key
 
     constructor() {
-        super({
-            key: 'Yard'
-        });
+        super('Yard');
     }
 
     preload() {
@@ -195,25 +195,9 @@ export default class Yard extends phaser.Scene {
         frontDoor.setAlpha(0);
         this.physics.add.overlap(this.susan.interactField, frontDoor, () => {
             if (phaser.Input.Keyboard.JustDown(this.spaceBar)) {
-                const text = this.add.text(this.susan.body.x - 150, this.susan.body.y + 30, 'I should really finish up outside', {
-                    font: {
-                        fontSize: '12px',
-                        fontFamily: '"Lucida Console", Monaco, monospace'
-                    },
-                    fill: '#ffffff',
-                    padding: { x: 20, y: 10 },
-                    backgroundColor: 'transparent',
-
-                });
-
-                text.depth = 10;
-
-                this.time.delayedCall(5000, () => {
-                    text.destroy()
-                }, [], this);
+                displayText(this, 'I should really finish up outside', this.susan.body.x - 150, this.susan.body.y + 30, 5000);
             };
         });
-
 
         // Setup camera and movement controls
         const camera = this.cameras.main;
@@ -236,22 +220,7 @@ export default class Yard extends phaser.Scene {
         //Setup quests
         this.coopBreakQuest = new CoopBreakQuest();
 
-        const text = this.add.text(this.susan.body.x - 150, this.susan.body.y - 30, 'Adam was looking for you.\nIt sounded important.\nI think he and Iris are playing near the shed.', {
-            font: {
-                fontSize: '12px',
-                fontFamily: '"Lucida Console", Monaco, monospace'
-            },
-            fill: '#ffffff',
-            padding: { x: 20, y: 10 },
-            backgroundColor: 'transparent',
-
-        });
-
-        text.depth = 10;
-
-        this.time.delayedCall(10000, () => {
-            text.destroy()
-        }, [], this);
+        displayText(this, 'Adam was looking for you.\nIt sounded important.\nI think he and Iris are playing near the shed.', this.susan.body.x - 150, this.susan.body.y - 30, 10000);
     }
 
     update(time: any, delta: any) {

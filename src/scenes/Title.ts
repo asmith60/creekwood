@@ -1,4 +1,5 @@
 import * as phaser from 'phaser';
+import { BaseScene } from './Base';
 import { BaseSprite } from '../sprites/Base';
 import { BlackySprite } from '../sprites/Blacky';
 import { BrunoSprite } from '../sprites/Bruno';
@@ -13,14 +14,12 @@ import { AllisonSprite } from '../sprites/Allison';
 import { BethSprite } from '../sprites/Beth';
 import { MopsySprite } from '../sprites/Mopsy';
 
-export default class Title extends phaser.Scene {
+export default class TitleScene extends BaseScene {
     allSprites!: phaser.GameObjects.Group;
     delay!: number;
 
     constructor() {
-        super({
-            key: 'Title'
-        });
+        super('Title');
     }
 
     preload() {

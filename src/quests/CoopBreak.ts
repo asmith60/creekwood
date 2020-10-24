@@ -8,6 +8,7 @@ import { KrystalSprite } from '../sprites/Krystal';
 import { CosimaSprite } from '../sprites/Cosima';
 import { AllisonSprite } from '../sprites/Allison';
 import { BethSprite } from '../sprites/Beth';
+import { displayText } from '../util/text';
 
 export class CoopBreakQuest extends BaseQuest {
 
@@ -56,31 +57,18 @@ export class CoopBreakQuest extends BaseQuest {
         scene.chickenSprites.add(scene.allison);
 
         scene.physics.add.overlap(scene.susan.interactField, scene.chickenSprites, (susan, chicken) => {
-            console.log(`Caught ${chicken.name}`);
             this.chickensCaught++;
-            console.log(`Total chickens caught is ${this.chickensCaught}`);
             (chicken as ChickenSprite).cluck(scene);
             let message: string;
-            if (this.chickensCaught !== 6) {
+            if (this.chickensCaught !== 6 && this.chickensCaught !== 5) {
                 message = `You caught ${chicken.name}\nThere are ${6 - this.chickensCaught} left`;
+            } else if (this.chickensCaught === 5) {
+                message = `You caught ${chicken.name}\nThere is ${6 - this.chickensCaught} left`;
             } else {
                 message = `You caught ${chicken.name}\nThat's all of them!`;
             }
-            const text = scene.add.text((scene as any).susan.body.x - 150, (scene as any).susan.body.y - 30, message, {
-                font: {
-                    fontSize: '12px',
-                    fontFamily: '"Lucida Console", Monaco, monospace'
-                },
-                fill: '#ffffff',
-                padding: { x: 20, y: 10 },
-                backgroundColor: 'transparent',
-            });
 
-            text.depth = 10;
-
-            scene.time.delayedCall(3000, () => {
-                text!.destroy()
-            }, [], scene);
+            displayText(scene, message, (scene as any).susan.body.x - 150, (scene as any).susan.body.y, 3000);
 
             chicken.destroy();
             if (this.chickensCaught === 6) {

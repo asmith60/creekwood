@@ -1,6 +1,7 @@
 import * as phaser from 'phaser';
 import { DogSprite } from './Dog';
 import Yard from '../scenes/Yard';
+import { displayText } from '../util/text';
 
 export class BlackySprite extends DogSprite {
     following: boolean = false;
@@ -19,27 +20,13 @@ export class BlackySprite extends DogSprite {
         });
     }
 
-    public bark(scene: phaser.Scene): void {
+    public bark(scene: Yard): void {
         scene.sound.play('blackybark');
 
         if (!this.following) {
             this.following = true;
 
-            const text = scene.add.text((scene as any).susan.body.x - 150, (scene as any).susan.body.y - 30, 'Blacky seems to be following you.\nPress the S key to tell him to stop', {
-                font: {
-                    fontSize: '12px',
-                    fontFamily: '"Lucida Console", Monaco, monospace'
-                },
-                fill: '#ffffff',
-                padding: { x: 20, y: 10 },
-                backgroundColor: 'transparent',
-            });
-
-            text.depth = 10;
-
-            scene.time.delayedCall(8000, () => {
-                text!.destroy()
-            }, [], scene);
+            displayText(scene, 'Blacky seems to be following you.\nPress the S key to tell him to stop', (scene as any).susan.body.x - 150, (scene as any).susan.body.y - 30, 8000);
         }
     }
 
