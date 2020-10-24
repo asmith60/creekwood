@@ -129,9 +129,10 @@ export default class YardScene extends BaseScene {
             loop: true
         });
 
-        // Add spacebar for interaction
+        // Add inputs
         this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.sKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.input.addPointer(3);
 
         // Setup sprites
         this.allSprites = this.add.group();
@@ -143,7 +144,7 @@ export default class YardScene extends BaseScene {
         this.susan.setBodySize(50, 30);
         this.susan.setOffset(18, 80);
         this.physics.add.overlap(this.susan.interactField, this.npcSprites, (susan, other) => {
-            if (phaser.Input.Keyboard.JustDown(this.spaceBar)) {
+            if (phaser.Input.Keyboard.JustDown(this.spaceBar) || this.input.pointer2.isDown) {
                 console.log(`Interacted with ${other.name}`);
                 this.interactions(other as BaseSprite);
             };
@@ -194,7 +195,7 @@ export default class YardScene extends BaseScene {
         frontDoor.setOffset(27, 35);
         frontDoor.setAlpha(0);
         this.physics.add.overlap(this.susan.interactField, frontDoor, () => {
-            if (phaser.Input.Keyboard.JustDown(this.spaceBar)) {
+            if (phaser.Input.Keyboard.JustDown(this.spaceBar) || this.input.pointer2.isDown) {
                 displayText(this, 'I should really finish up outside', this.susan.body.x - 150, this.susan.body.y + 30, 5000);
             };
         });
@@ -228,12 +229,12 @@ export default class YardScene extends BaseScene {
         this.controls.update(delta);
 
         // Convenience vars
-        const pointer = this.input.activePointer;
+        const pointer = this.input.pointer1;
         const camera = this.cameras.main;
         const susanBody = this.susan.body as phaser.Physics.Arcade.Body;
 
         // Update pointer location
-        this.input.activePointer.updateWorldPoint(this.cameras.main);
+        pointer.updateWorldPoint(this.cameras.main);
 
         // Stop any previous movement from the last frame
         susanBody.setVelocity(0);
@@ -244,13 +245,13 @@ export default class YardScene extends BaseScene {
         this.blacky.everyTick(this);
 
         // Movement
-        if (this.cursors.left.isDown || (this.input.activePointer.isDown && move.mobileLeftCondition(pointer, this.susan, camera))) {
+        if (this.cursors.left.isDown || (pointer.isDown && move.mobileLeftCondition(pointer, this.susan, camera))) {
             this.susan.moveLeftWithBlacky(this.susan.speed, this);
-        } else if (this.cursors.right.isDown || (this.input.activePointer.isDown && move.mobileRightCondition(pointer, this.susan, camera))) {
+        } else if (this.cursors.right.isDown || (pointer.isDown && move.mobileRightCondition(pointer, this.susan, camera))) {
             this.susan.moveRightWithBlacky(this.susan.speed, this);
-        } else if (this.cursors.up.isDown || (this.input.activePointer.isDown && move.mobileUpCondition(pointer, this.susan, camera))) {
+        } else if (this.cursors.up.isDown || (pointer.isDown && move.mobileUpCondition(pointer, this.susan, camera))) {
             this.susan.moveUpWithBlacky(this.susan.speed, this);
-        } else if (this.cursors.down.isDown || (this.input.activePointer.isDown && move.mobileDownCondition(pointer, this.susan, camera))) {
+        } else if (this.cursors.down.isDown || (pointer.isDown && move.mobileDownCondition(pointer, this.susan, camera))) {
             this.susan.moveDownWithBlacky(this.susan.speed, this);
         } else {
             this.susan.stopWithBlacky(this);
