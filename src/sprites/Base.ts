@@ -5,51 +5,59 @@ export abstract class BaseSprite extends phaser.Physics.Arcade.Sprite {
     moveLeftRightSwitch: boolean = true;
     moveSquareSwitch: number = 0;
     speed: number;
-    constructor(name: string, scene: phaser.Scene, map: phaser.Tilemaps.Tilemap, spawn: string, scale: number, depth: number, key: string, speed: number, animationFrames: AnimationFrames) {
-        super(scene, (map.findObject("objects", obj => obj.name === spawn) as any).x, (map.findObject("objects", obj => obj.name === spawn) as any).y, key, animationFrames.initialFrame);
-        scene.add.existing(this);
-        scene.physics.add.existing(this);
-        this.name = name;
-        this.setScale(scale);
-        this.setDepth(depth);
+    constructor(spriteConfig: SpriteConfig) {
+        super(spriteConfig.scene, (spriteConfig.map.findObject("objects", obj => obj.name === spriteConfig.spawn) as any).x, (spriteConfig.map.findObject("objects", obj => obj.name === spriteConfig.spawn) as any).y, spriteConfig.key || 'none', spriteConfig.animationFrames!.initialFrame);
+        spriteConfig.scene.add.existing(this);
+        spriteConfig.scene.physics.add.existing(this);
+        this.name = spriteConfig.name;
+        if (spriteConfig.bodySizeX && spriteConfig.bodySizeY) {
+            this.setBodySize(spriteConfig.bodySizeX, spriteConfig.bodySizeY);
+        }
+        if (spriteConfig.offsetX && spriteConfig.offsetY) {
+            this.setOffset(spriteConfig.offsetX, spriteConfig.offsetY);
+        }
+        this.setScale(spriteConfig.scale);
+        this.setDepth(spriteConfig.depth);
         this.setCollideWorldBounds(true);
         this.body.immovable = true;
 
-        this.speed = speed;
+        this.speed = spriteConfig.speed;
 
-        scene.anims.create({
-            key: `${this.name}Left`,
-            frames: scene.anims.generateFrameNumbers(this.texture.key, { start: animationFrames.leftStartFrame, end: animationFrames.leftEndFrame }),
-            frameRate: 10,
-            repeat: -1
-        });
+        if (spriteConfig.animationFrames) {
+            spriteConfig.scene.anims.create({
+                key: `${this.name}Left`,
+                frames: spriteConfig.scene.anims.generateFrameNumbers(this.texture.key, { start: spriteConfig.animationFrames.leftStartFrame, end: spriteConfig.animationFrames.leftEndFrame }),
+                frameRate: 10,
+                repeat: -1
+            });
 
-        scene.anims.create({
-            key: `${this.name}Turn`,
-            frames: [{ key: this.texture.key, frame: animationFrames.turnFrame }],
-            frameRate: 20
-        });
+            spriteConfig.scene.anims.create({
+                key: `${this.name}Turn`,
+                frames: [{ key: this.texture.key, frame: spriteConfig.animationFrames.turnFrame }],
+                frameRate: 20
+            });
 
-        scene.anims.create({
-            key: `${this.name}Right`,
-            frames: scene.anims.generateFrameNumbers(this.texture.key, { start: animationFrames.rightStartFrame, end: animationFrames.rightEndFrame }),
-            frameRate: 10,
-            repeat: -1
-        });
+            spriteConfig.scene.anims.create({
+                key: `${this.name}Right`,
+                frames: spriteConfig.scene.anims.generateFrameNumbers(this.texture.key, { start: spriteConfig.animationFrames.rightStartFrame, end: spriteConfig.animationFrames.rightEndFrame }),
+                frameRate: 10,
+                repeat: -1
+            });
 
-        scene.anims.create({
-            key: `${this.name}Up`,
-            frames: scene.anims.generateFrameNumbers(this.texture.key, { start: animationFrames.upStartFrame, end: animationFrames.upEndFrame }),
-            frameRate: 10,
-            repeat: -1
-        });
+            spriteConfig.scene.anims.create({
+                key: `${this.name}Up`,
+                frames: spriteConfig.scene.anims.generateFrameNumbers(this.texture.key, { start: spriteConfig.animationFrames.upStartFrame, end: spriteConfig.animationFrames.upEndFrame }),
+                frameRate: 10,
+                repeat: -1
+            });
 
-        scene.anims.create({
-            key: `${this.name}Down`,
-            frames: scene.anims.generateFrameNumbers(this.texture.key, { start: animationFrames.downStartFrame, end: animationFrames.downEndFrame }),
-            frameRate: 10,
-            repeat: -1
-        });
+            spriteConfig.scene.anims.create({
+                key: `${this.name}Down`,
+                frames: spriteConfig.scene.anims.generateFrameNumbers(this.texture.key, { start: spriteConfig.animationFrames.downStartFrame, end: spriteConfig.animationFrames.downEndFrame }),
+                frameRate: 10,
+                repeat: -1
+            });
+        }
     }
 
     public moveLeft(speed: number = this.speed) {
@@ -169,4 +177,20 @@ export interface AnimationFrames {
     upEndFrame: number;
     downStartFrame: number;
     downEndFrame: number;
+}
+
+export interface SpriteConfig {
+    name: string;
+    scene: phaser.Scene;
+    map: phaser.Tilemaps.Tilemap;
+    spawn: string;
+    scale: number;
+    depth: number;
+    key?: string;
+    speed: number;
+    bodySizeX?: number;
+    bodySizeY?: number;
+    offsetX?: number;
+    offsetY?: number;
+    animationFrames?: AnimationFrames;
 }

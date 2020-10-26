@@ -1,11 +1,11 @@
-import * as phaser from 'phaser';
 import { PersonSprite } from './Person';
 import { BaseScene } from '../scenes/Base';
 import { displayText } from '../util/text';
+import { SpriteConfig } from './Base';
 
 export class AdamSprite extends PersonSprite {
-    constructor(name: string, scene: phaser.Scene, map: phaser.Tilemaps.Tilemap, spawn: string, scale: number, depth: number, speed: number) {
-        super(name, scene, map, spawn, scale, depth, 'people1', speed, {
+    constructor(spriteConfig: SpriteConfig) {
+        spriteConfig.animationFrames = {
             initialFrame: 55,
             turnFrame: 55,
             leftStartFrame: 66,
@@ -16,7 +16,11 @@ export class AdamSprite extends PersonSprite {
             upEndFrame: 92,
             downStartFrame: 54,
             downEndFrame: 56
-        });
+        };
+
+        spriteConfig.key = 'people1';
+
+        super(spriteConfig);
     }
 
     public talk(scene: BaseScene) {

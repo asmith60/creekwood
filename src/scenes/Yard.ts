@@ -140,9 +140,19 @@ export default class YardScene extends BaseScene {
         this.dogSprites = this.add.group();
         this.chickenSprites = this.add.group();
 
-        this.susan = new SusanSprite('susan', this, map, 'susanSpawn', .4, 6, 200);
-        this.susan.setBodySize(50, 30);
-        this.susan.setOffset(18, 80);
+        this.susan = new SusanSprite({
+            name: 'susan',
+            scene: this,
+            map: map,
+            spawn: 'susanSpawn',
+            scale: .4,
+            depth: 6,
+            speed: 200,
+            bodySizeX: 50,
+            bodySizeY: 30,
+            offsetX: 18,
+            offsetY: 80
+        });
         this.physics.add.overlap(this.susan.interactField, this.npcSprites, (susan, other) => {
             if (phaser.Input.Keyboard.JustDown(this.spaceBar) || this.input.pointer2.isDown) {
                 console.log(`Interacted with ${other.name}`);
@@ -151,34 +161,83 @@ export default class YardScene extends BaseScene {
         });
         this.allSprites.add(this.susan);
 
-        this.adam = new AdamSprite('adam', this, map, 'adamSpawn', .4, 5, 200);
-        this.adam.setBodySize(55, 90);
-        this.adam.setOffset(17, 10);
+        this.adam = new AdamSprite({
+            name: 'adam',
+            scene: this,
+            map: map,
+            spawn: 'adamSpawn',
+            scale: .4,
+            depth: 5,
+            speed: 200,
+            bodySizeX: 55,
+            bodySizeY: 90,
+            offsetX: 17,
+            offsetY: 10
+        });
         this.allSprites.add(this.adam);
         this.npcSprites.add(this.adam);
 
-        this.iris = new IrisSprite('iris', this, map, 'irisSpawn', .4, 5, 200);
-        this.iris.setBodySize(45, 50);
-        this.iris.setOffset(5, 25);
+        this.iris = new IrisSprite({
+            name: 'iris',
+            scene: this,
+            map: map,
+            spawn: 'irisSpawn',
+            scale: .4,
+            depth: 5,
+            speed: 200,
+            bodySizeX: 45,
+            bodySizeY: 50,
+            offsetX: 5,
+            offsetY: 25
+        });
         this.allSprites.add(this.iris);
         this.npcSprites.add(this.iris);
 
-        this.blacky = new BlackySprite('blacky', this, map, 'blackySpawn', .5, 5, 50);
-        this.blacky.setBodySize(33, 42);
-        this.blacky.setOffset(9, 30);
+        this.blacky = new BlackySprite({
+            name: 'blacky',
+            scene: this,
+            map: map,
+            spawn: 'blackySpawn',
+            scale: .5,
+            depth: 5,
+            speed: 50,
+            bodySizeX: 33,
+            bodySizeY: 42,
+            offsetX: 9,
+            offsetY: 30
+        });
         this.allSprites.add(this.blacky);
         this.npcSprites.add(this.blacky);
         this.dogSprites.add(this.blacky);
 
-        this.bruno = new BrunoSprite('bruno', this, map, 'brunoSpawn', .5, 5, 50);
-        this.bruno.setBodySize(33, 35);
-        this.bruno.setOffset(9, 35);
+        this.bruno = new BrunoSprite({
+            name: 'bruno',
+            scene: this,
+            map: map,
+            spawn: 'brunoSpawn',
+            scale: .5,
+            depth: 5,
+            speed: 50,
+            bodySizeX: 33,
+            bodySizeY: 35,
+            offsetX: 9,
+            offsetY: 35
+        });
         this.allSprites.add(this.bruno);
         this.npcSprites.add(this.bruno);
         this.dogSprites.add(this.bruno);
 
-        this.mopsy = new MopsySprite('mopsy', this, map, 'mopsySpawn', 1, 5, 50);
-        this.mopsy.setBodySize(15, 15);
+        this.mopsy = new MopsySprite({
+            name: 'mopsy',
+            scene: this,
+            map: map,
+            spawn: 'mopsySpawn',
+            scale: 1,
+            depth: 5,
+            speed: 50,
+            bodySizeX: 15,
+            bodySizeY: 15
+        });
         this.allSprites.add(this.mopsy);
         this.npcSprites.add(this.mopsy);
 

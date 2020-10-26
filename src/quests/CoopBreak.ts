@@ -20,38 +20,93 @@ export class CoopBreakQuest extends BaseQuest {
     activate(scene: Yard): void {
         this.state = 'ACTIVE';
 
-        scene.helena = new HelenaSprite('helena', scene, scene.map, 'helenaSpawn', 1, 5, 250);
-        scene.helena.setBodySize(17, 17);
+        scene.helena = new HelenaSprite({
+            name: 'helena',
+            scene: scene,
+            map: scene.map,
+            spawn: 'helenaSpawn',
+            scale: 1,
+            depth: 5,
+            speed: 250,
+            bodySizeX: 17,
+            bodySizeY: 17
+        });
+        scene.krystal = new KrystalSprite({
+            name: 'krystal',
+            scene: scene,
+            map: scene.map,
+            spawn: 'krystalSpawn',
+            scale: 1,
+            depth: 5,
+            speed: 250,
+            bodySizeX: 17,
+            bodySizeY: 17
+        });
+        scene.rachel = new RachelSprite({
+            name: 'rachel',
+            scene: scene,
+            map: scene.map,
+            spawn: 'rachelSpawn',
+            scale: 1,
+            depth: 5,
+            speed: 250,
+            bodySizeX: 17,
+            bodySizeY: 17
+        });
+        scene.cosima = new CosimaSprite({
+            name: 'cosima',
+            scene: scene,
+            map: scene.map,
+            spawn: 'cosimaSpawn',
+            scale: 1,
+            depth: 5,
+            speed: 250,
+            bodySizeX: 17,
+            bodySizeY: 17
+        });
+        scene.beth = new BethSprite({
+            name: 'beth',
+            scene: scene,
+            map: scene.map,
+            spawn: 'bethSpawn',
+            scale: 1,
+            depth: 5,
+            speed: 250,
+            bodySizeX: 17,
+            bodySizeY: 17
+        });
+        scene.allison = new AllisonSprite({
+            name: 'allison',
+            scene: scene,
+            map: scene.map,
+            spawn: 'allisonSpawn',
+            scale: 1,
+            depth: 5,
+            speed: 250,
+            bodySizeX: 17,
+            bodySizeY: 17
+        });
+
         scene.allSprites.add(scene.helena);
         scene.npcSprites.add(scene.helena);
         scene.chickenSprites.add(scene.helena);
 
-        scene.krystal = new KrystalSprite('krystal', scene, scene.map, 'krystalSpawn', 1, 5, 250);
-        scene.krystal.setBodySize(17, 17);
         scene.allSprites.add(scene.krystal);
         scene.npcSprites.add(scene.krystal);
         scene.chickenSprites.add(scene.krystal);
 
-        scene.rachel = new RachelSprite('rachel', scene, scene.map, 'rachelSpawn', 1, 5, 250);
-        scene.rachel.setBodySize(17, 17);
         scene.allSprites.add(scene.rachel);
         scene.npcSprites.add(scene.rachel);
         scene.chickenSprites.add(scene.rachel);
 
-        scene.beth = new BethSprite('beth', scene, scene.map, 'bethSpawn', 1, 5, 250);
-        scene.beth.setBodySize(17, 17);
         scene.allSprites.add(scene.beth);
         scene.npcSprites.add(scene.beth);
         scene.chickenSprites.add(scene.beth);
 
-        scene.cosima = new CosimaSprite('cosima', scene, scene.map, 'cosimaSpawn', 1, 5, 250);
-        scene.cosima.setBodySize(17, 17);
         scene.allSprites.add(scene.cosima);
         scene.npcSprites.add(scene.cosima);
         scene.chickenSprites.add(scene.cosima);
 
-        scene.allison = new AllisonSprite('allison', scene, scene.map, 'allisonSpawn', 1, 5, 250);
-        scene.allison.setBodySize(17, 17);
         scene.allSprites.add(scene.allison);
         scene.npcSprites.add(scene.allison);
         scene.chickenSprites.add(scene.allison);

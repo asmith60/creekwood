@@ -1,9 +1,9 @@
-import * as phaser from 'phaser';
+import { SpriteConfig } from './Base';
 import { ChickenSprite } from './Chicken';
 
 export class AllisonSprite extends ChickenSprite {
-    constructor(name: string, scene: phaser.Scene, map: phaser.Tilemaps.Tilemap, spawn: string, scale: number, depth: number, speed: number) {
-        super(name, scene, map, spawn, scale, depth, speed, {
+    constructor(spriteConfig: SpriteConfig) {
+        spriteConfig.animationFrames = {
             initialFrame: 37,
             turnFrame: 37,
             leftStartFrame: 12,
@@ -14,6 +14,8 @@ export class AllisonSprite extends ChickenSprite {
             upEndFrame: 26,
             downStartFrame: 36,
             downEndFrame: 38
-        });
+        };
+
+        super(spriteConfig);
     }
 }

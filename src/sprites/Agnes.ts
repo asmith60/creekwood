@@ -1,9 +1,9 @@
-import * as phaser from 'phaser';
+import { SpriteConfig } from './Base';
 import { CatSprite } from './Cat';
 
 export class AgnesSprite extends CatSprite {
-    constructor(name: string, scene: phaser.Scene, map: phaser.Tilemaps.Tilemap, spawn: string, scale: number, depth: number, speed: number) {
-        super(name, scene, map, spawn, scale, depth, speed, {
+    constructor(spriteConfig: SpriteConfig) {
+        spriteConfig.animationFrames = {
             initialFrame: 58,
             turnFrame: 58,
             leftStartFrame: 69,
@@ -14,6 +14,8 @@ export class AgnesSprite extends CatSprite {
             upEndFrame: 95,
             downStartFrame: 57,
             downEndFrame: 59
-        });
+        };
+
+        super(spriteConfig);
     }
 }

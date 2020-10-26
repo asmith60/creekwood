@@ -1,11 +1,12 @@
 import * as phaser from 'phaser';
 import { PersonSprite } from './Person';
 import Yard from '../scenes/Yard';
+import { SpriteConfig } from './Base';
 
 export class SusanSprite extends PersonSprite {
     interactField: phaser.Physics.Arcade.Sprite;
-    constructor(name: string, scene: phaser.Scene, map: phaser.Tilemaps.Tilemap, spawn: string, scale: number, depth: number, speed: number) {
-        super(name, scene, map, spawn, scale, depth, 'people0', speed, {
+    constructor(spriteConfig: SpriteConfig) {
+        spriteConfig.animationFrames = {
             initialFrame: 1,
             turnFrame: 1,
             leftStartFrame: 13,
@@ -16,14 +17,18 @@ export class SusanSprite extends PersonSprite {
             upEndFrame: 41,
             downStartFrame: 0,
             downEndFrame: 2
-        });
+        };
+
+        spriteConfig.key = 'people0';
+
+        super(spriteConfig);
 
         this.body.immovable = false;
 
-        const spawnPoint: any = map.findObject("objects", obj => obj.name === spawn);
-        this.interactField = scene.physics.add.sprite(spawnPoint.x, spawnPoint.y, 'people');
-        this.interactField.setScale(scale);
-        this.interactField.setDepth(depth);
+        const spawnPoint: any = spriteConfig.map.findObject("objects", obj => obj.name === spriteConfig.spawn);
+        this.interactField = spriteConfig.scene.physics.add.sprite(spawnPoint.x, spawnPoint.y, 'people0');
+        this.interactField.setScale(spriteConfig.scale);
+        this.interactField.setDepth(spriteConfig.depth);
         this.interactField.setBodySize(80, 55);
         this.interactField.setAlpha(0);
     }

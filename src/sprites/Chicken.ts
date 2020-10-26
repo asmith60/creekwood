@@ -1,9 +1,10 @@
 import * as phaser from 'phaser';
-import { BaseSprite, AnimationFrames } from './Base';
+import { BaseSprite, AnimationFrames, SpriteConfig } from './Base';
 
 export abstract class ChickenSprite extends BaseSprite {
-    constructor(name: string, scene: phaser.Scene, map: phaser.Tilemaps.Tilemap, spawn: string, scale: number, depth: number, speed: number, animationFrames: AnimationFrames) {
-        super(name, scene, map, spawn, scale, depth, 'chickens', speed, animationFrames);
+    constructor(spriteConfig: SpriteConfig) {
+        spriteConfig.key = 'chickens';
+        super(spriteConfig);
     }
 
     public cluck(scene: phaser.Scene) {

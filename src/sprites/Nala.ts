@@ -1,9 +1,9 @@
-import * as phaser from 'phaser';
+import { SpriteConfig } from './Base';
 import { CatSprite } from './Cat';
 
 export class NalaSprite extends CatSprite {
-    constructor(name: string, scene: phaser.Scene, map: phaser.Tilemaps.Tilemap, spawn: string, scale: number, depth: number, speed: number) {
-        super(name, scene, map, spawn, scale, depth, speed, {
+    constructor(spriteConfig: SpriteConfig) {
+        spriteConfig.animationFrames = {
             initialFrame: 49,
             turnFrame: 49,
             leftStartFrame: 60,
@@ -14,6 +14,8 @@ export class NalaSprite extends CatSprite {
             upEndFrame: 86,
             downStartFrame: 48,
             downEndFrame: 50
-        });
+        };
+
+        super(spriteConfig);
     }
 }

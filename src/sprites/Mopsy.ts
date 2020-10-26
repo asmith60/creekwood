@@ -1,11 +1,11 @@
-import * as phaser from 'phaser';
 import { RabbitSprite } from './Rabbit';
 import Yard from '../scenes/Yard';
 import { displayText } from '../util/text';
+import { SpriteConfig } from './Base';
 
 export class MopsySprite extends RabbitSprite {
-    constructor(name: string, scene: phaser.Scene, map: phaser.Tilemaps.Tilemap, spawn: string, scale: number, depth: number, speed: number) {
-        super(name, scene, map, spawn, scale, depth, speed, {
+    constructor(spriteConfig: SpriteConfig) {
+        spriteConfig.animationFrames = {
             initialFrame: 7,
             turnFrame: 7,
             leftStartFrame: 18,
@@ -16,7 +16,9 @@ export class MopsySprite extends RabbitSprite {
             upEndFrame: 44,
             downStartFrame: 6,
             downEndFrame: 8
-        });
+        };
+
+        super(spriteConfig);
     }
 
     interact(scene: Yard) {

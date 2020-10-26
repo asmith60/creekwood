@@ -1,9 +1,10 @@
 import * as phaser from 'phaser';
+import { SpriteConfig } from './Base';
 import { PersonSprite } from './Person';
 
 export class IrisSprite extends PersonSprite {
-    constructor(name: string, scene: phaser.Scene, map: phaser.Tilemaps.Tilemap, spawn: string, scale: number, depth: number, speed: number) {
-        super(name, scene, map, spawn, scale, depth, 'people2', speed, {
+    constructor(spriteConfig: SpriteConfig) {
+        spriteConfig.animationFrames = {
             initialFrame: 59,
             turnFrame: 59,
             leftStartFrame: 0,
@@ -14,7 +15,11 @@ export class IrisSprite extends PersonSprite {
             upEndFrame: 0,
             downStartFrame: 0,
             downEndFrame: 0
-        });
+        };
+
+        spriteConfig.key = 'people2';
+
+        super(spriteConfig);
     }
 
     public talk(scene: phaser.Scene) {

@@ -89,18 +89,114 @@ export default class TitleScene extends BaseScene {
         belowLayer.setDepth(0);
 
         this.allSprites = this.add.group([
-            new HelenaSprite('helena', this, map, 'helenaSpawn', 1.5, 6, 50),
-            new RachelSprite('rachel', this, map, 'rachelSpawn', 1.5, 6, 50),
-            new KrystalSprite('krystal', this, map, 'krystalSpawn', 1.5, 6, 50),
-            new CosimaSprite('cosima', this, map, 'cosimaSpawn', 1.5, 6, 50),
-            new BethSprite('beth', this, map, 'bethSpawn', 1.5, 6, 50),
-            new AllisonSprite('allison', this, map, 'allisonSpawn', 1.5, 6, 50),
-            new BlackySprite('blacky', this, map, 'blackySpawn', 1, 6, 50),
-            new BrunoSprite('bruno', this, map, 'brunoSpawn', 1, 6, 50),
-            new AgnesSprite('agnes', this, map, 'agnesSpawn', 1, 6, 50),
-            new NalaSprite('nala', this, map, 'nalaSpawn', 1, 6, 50),
-            new MikaSprite('mika', this, map, 'mikaSpawn', 1, 6, 50),
-            new MopsySprite('mopsy', this, map, 'mopsySpawn', 1.5, 6, 50)
+            new HelenaSprite({
+                name: 'helena',
+                scene: this,
+                map: map,
+                spawn: 'helenaSpawn',
+                scale: 1.5,
+                depth: 6,
+                speed: 50
+            }),
+            new KrystalSprite({
+                name: 'krystal',
+                scene: this,
+                map: map,
+                spawn: 'krystalSpawn',
+                scale: 1.5,
+                depth: 6,
+                speed: 50
+            }),
+            new RachelSprite({
+                name: 'rachel',
+                scene: this,
+                map: map,
+                spawn: 'rachelSpawn',
+                scale: 1.5,
+                depth: 6,
+                speed: 50
+            }),
+            new CosimaSprite({
+                name: 'cosima',
+                scene: this,
+                map: map,
+                spawn: 'cosimaSpawn',
+                scale: 1.5,
+                depth: 6,
+                speed: 50
+            }),
+            new BethSprite({
+                name: 'beth',
+                scene: this,
+                map: map,
+                spawn: 'bethSpawn',
+                scale: 1.5,
+                depth: 6,
+                speed: 50
+            }),
+            new AllisonSprite({
+                name: 'allison',
+                scene: this,
+                map: map,
+                spawn: 'allisonSpawn',
+                scale: 1.5,
+                depth: 6,
+                speed: 50
+            }),
+            new BlackySprite({
+                name: 'blacky',
+                scene: this,
+                map: map,
+                spawn: 'blackySpawn',
+                scale: 1,
+                depth: 6,
+                speed: 50
+            }),
+            new BrunoSprite({
+                name: 'bruno',
+                scene: this,
+                map: map,
+                spawn: 'brunoSpawn',
+                scale: 1,
+                depth: 6,
+                speed: 50
+            }),
+            new AgnesSprite({
+                name: 'agnes',
+                scene: this,
+                map: map,
+                spawn: 'agnesSpawn',
+                scale: 1,
+                depth: 6,
+                speed: 50
+            }),
+            new NalaSprite({
+                name: 'nala',
+                scene: this,
+                map: map,
+                spawn: 'nalaSpawn',
+                scale: 1,
+                depth: 6,
+                speed: 50
+            }),
+            new MikaSprite({
+                name: 'mika',
+                scene: this,
+                map: map,
+                spawn: 'mikaSpawn',
+                scale: 1,
+                depth: 6,
+                speed: 50
+            }),
+            new MopsySprite({
+                name: 'mopy',
+                scene: this,
+                map: map,
+                spawn: 'mopsySpawn',
+                scale: 1.5,
+                depth: 6,
+                speed: 50
+            }),
         ]);
 
         const music = this.sound.add('titlemusic');
@@ -127,7 +223,6 @@ export default class TitleScene extends BaseScene {
             fill: '#ffffff',
             padding: { x: 20, y: 10 },
             backgroundColor: 'transparent',
-            textAlign: 'center'
         });
 
         this.input.keyboard.on('keydown', () => {

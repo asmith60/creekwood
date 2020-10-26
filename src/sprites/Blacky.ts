@@ -2,11 +2,12 @@ import * as phaser from 'phaser';
 import { DogSprite } from './Dog';
 import Yard from '../scenes/Yard';
 import { displayText } from '../util/text';
+import { SpriteConfig } from './Base';
 
 export class BlackySprite extends DogSprite {
-    following: boolean = false;
-    constructor(name: string, scene: phaser.Scene, map: phaser.Tilemaps.Tilemap, spawn: string, scale: number, depth: number, speed: number) {
-        super(name, scene, map, spawn, scale, depth, speed, {
+    following: boolean;
+    constructor(spriteConfig: SpriteConfig) {
+        spriteConfig.animationFrames = {
             initialFrame: 1,
             turnFrame: 1,
             leftStartFrame: 12,
@@ -17,7 +18,11 @@ export class BlackySprite extends DogSprite {
             upEndFrame: 38,
             downStartFrame: 0,
             downEndFrame: 2
-        });
+        };
+
+        super(spriteConfig);
+
+        this.following = false;
     }
 
     public bark(scene: Yard): void {
