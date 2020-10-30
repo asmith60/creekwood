@@ -41,7 +41,11 @@ export default class YardScene extends BaseScene {
     controls: any;
     map!: phaser.Tilemaps.Tilemap;
     spaceBar!: phaser.Input.Keyboard.Key
+    bKey!: phaser.Input.Keyboard.Key
+    wKey!: phaser.Input.Keyboard.Key
+    aKey!: phaser.Input.Keyboard.Key
     sKey!: phaser.Input.Keyboard.Key
+    dKey!: phaser.Input.Keyboard.Key
 
     constructor() {
         super('Yard');
@@ -131,8 +135,11 @@ export default class YardScene extends BaseScene {
 
         // Add inputs
         this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.bKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B);
+        this.wKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        this.aKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.sKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        this.input.addPointer(3);
+        this.dKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
         // Setup sprites
         this.allSprites = this.add.group();
@@ -154,7 +161,7 @@ export default class YardScene extends BaseScene {
             offsetY: 80
         });
         this.physics.add.overlap(this.susan.interactField, this.npcSprites, (susan, other) => {
-            if (phaser.Input.Keyboard.JustDown(this.spaceBar) || this.input.pointer2.isDown) {
+            if (phaser.Input.Keyboard.JustDown(this.spaceBar)) {
                 console.log(`Interacted with ${other.name}`);
                 this.interactions(other as BaseSprite);
             };
@@ -254,7 +261,7 @@ export default class YardScene extends BaseScene {
         frontDoor.setOffset(27, 35);
         frontDoor.setAlpha(0);
         this.physics.add.overlap(this.susan.interactField, frontDoor, () => {
-            if (phaser.Input.Keyboard.JustDown(this.spaceBar) || this.input.pointer2.isDown) {
+            if (phaser.Input.Keyboard.JustDown(this.spaceBar)) {
                 displayText(this, 'I should really finish up outside', this.susan.body.x - 150, this.susan.body.y + 30, 5000);
             };
         });
@@ -304,13 +311,13 @@ export default class YardScene extends BaseScene {
         this.blacky.everyTick(this);
 
         // Movement
-        if (this.cursors.left.isDown || (pointer.isDown && move.mobileLeftCondition(pointer, this.susan, camera))) {
+        if (this.cursors.left.isDown || this.aKey.isDown || (pointer.isDown && move.mobileLeftCondition(pointer, this.susan, camera))) {
             this.susan.moveLeftWithBlacky(this.susan.speed, this);
-        } else if (this.cursors.right.isDown || (pointer.isDown && move.mobileRightCondition(pointer, this.susan, camera))) {
+        } else if (this.cursors.right.isDown || this.dKey.isDown || (pointer.isDown && move.mobileRightCondition(pointer, this.susan, camera))) {
             this.susan.moveRightWithBlacky(this.susan.speed, this);
-        } else if (this.cursors.up.isDown || (pointer.isDown && move.mobileUpCondition(pointer, this.susan, camera))) {
+        } else if (this.cursors.up.isDown || this.wKey.isDown || (pointer.isDown && move.mobileUpCondition(pointer, this.susan, camera))) {
             this.susan.moveUpWithBlacky(this.susan.speed, this);
-        } else if (this.cursors.down.isDown || (pointer.isDown && move.mobileDownCondition(pointer, this.susan, camera))) {
+        } else if (this.cursors.down.isDown || this.sKey.isDown || (pointer.isDown && move.mobileDownCondition(pointer, this.susan, camera))) {
             this.susan.moveDownWithBlacky(this.susan.speed, this);
         } else {
             this.susan.stopWithBlacky(this);

@@ -31,7 +31,7 @@ export class BlackySprite extends DogSprite {
         if (!this.following) {
             this.following = true;
 
-            displayText(scene, 'Blacky seems to be following you.\nPress the S key to tell him to stop', (scene as any).susan.body.x - 150, (scene as any).susan.body.y - 30, 8000);
+            displayText(scene, 'Blacky seems to be following you.\nPress the B key to tell him to stop', (scene as any).susan.body.x - 150, (scene as any).susan.body.y - 30, 8000);
         }
     }
 
@@ -39,7 +39,7 @@ export class BlackySprite extends DogSprite {
         if (this.following) {
             (this.body as phaser.Physics.Arcade.Body).x = scene.susan.body.x;
             (this.body as phaser.Physics.Arcade.Body).y = scene.susan.body.y + 30;
-            if (phaser.Input.Keyboard.JustDown(scene.sKey)) {
+            if (phaser.Input.Keyboard.JustDown(scene.bKey)) {
                 this.following = false;
             };
         }
