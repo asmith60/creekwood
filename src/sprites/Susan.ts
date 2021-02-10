@@ -33,54 +33,6 @@ export class SusanSprite extends PersonSprite {
         this.interactField.setAlpha(0);
     }
 
-    public moveLeftWithBlacky(speed: number = this.speed, scene: Yard) {
-        (this.body as phaser.Physics.Arcade.Body).setVelocityX(-speed);
-        this.anims.play(`${this.name}Left`, true);
-        if (scene.blacky.following) {
-            scene.blacky.anims.play('blackyLeft', true);
-        }
-    }
-
-    public moveRightWithBlacky(speed: number = this.speed, scene: Yard) {
-        (this.body as phaser.Physics.Arcade.Body).setVelocityX(speed);
-        this.anims.play(`${this.name}Right`, true)
-        if (scene.blacky.following) {
-            scene.blacky.anims.play('blackyRight', true);
-        }
-    }
-
-    public moveUpWithBlacky(speed: number = this.speed, scene: Yard) {
-        (this.body as phaser.Physics.Arcade.Body).setVelocityY(-speed);
-        this.anims.play(`${this.name}Up`, true)
-        if (scene.blacky.following) {
-            scene.blacky.anims.play('blackyUp', true);
-        }
-    }
-
-    public moveDownWithBlacky(speed: number = this.speed, scene: Yard) {
-        (this.body as phaser.Physics.Arcade.Body).setVelocityY(speed);
-        this.anims.play(`${this.name}Down`, true);
-        if (scene.blacky.following) {
-            scene.blacky.anims.play('blackyDown', true);
-        }
-    }
-
-    public turnWithBlacky(scene: Yard) {
-        (this.body as phaser.Physics.Arcade.Body).setVelocity(0);
-        this.anims.play(`${this.name}Turn`, true);
-        if (scene.blacky.following) {
-            scene.blacky.anims.play('blackyTurn', true);
-        }
-    }
-
-    public stopWithBlacky(scene: Yard) {
-        (this.body as phaser.Physics.Arcade.Body).setVelocity(0);
-        this.anims.stop();
-        if (scene.blacky.following) {
-            scene.blacky.anims.stop();
-        }
-    }
-
     public everyTick(): void {
         (this.interactField.body as phaser.Physics.Arcade.Body).x = this.body.x - 6;
         (this.interactField.body as phaser.Physics.Arcade.Body).y = this.body.y - 5;

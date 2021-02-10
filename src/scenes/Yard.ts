@@ -312,15 +312,15 @@ export default class YardScene extends BaseScene {
 
         // Movement
         if (this.cursors.left.isDown || this.aKey.isDown || (pointer.isDown && move.mobileLeftCondition(pointer, this.susan, camera))) {
-            this.susan.moveLeftWithBlacky(this.susan.speed, this);
+            this.susan.moveLeft(this.susan.speed);
         } else if (this.cursors.right.isDown || this.dKey.isDown || (pointer.isDown && move.mobileRightCondition(pointer, this.susan, camera))) {
-            this.susan.moveRightWithBlacky(this.susan.speed, this);
+            this.susan.moveRight(this.susan.speed);
         } else if (this.cursors.up.isDown || this.wKey.isDown || (pointer.isDown && move.mobileUpCondition(pointer, this.susan, camera))) {
-            this.susan.moveUpWithBlacky(this.susan.speed, this);
+            this.susan.moveUp(this.susan.speed);
         } else if (this.cursors.down.isDown || this.sKey.isDown || (pointer.isDown && move.mobileDownCondition(pointer, this.susan, camera))) {
-            this.susan.moveDownWithBlacky(this.susan.speed, this);
+            this.susan.moveDown(this.susan.speed);
         } else {
-            this.susan.stopWithBlacky(this);
+            this.susan.stop();
         }
 
         // Normalize and scale the velocity so that player can't move faster along a diagonal
