@@ -308,7 +308,14 @@ export default class YardScene extends BaseScene {
 
         // Run this every update tick
         this.susan.everyTick();
-        this.blacky.everyTick(this);
+
+        if (phaser.Input.Keyboard.JustDown(this.bKey)) {
+            this.blacky.following = false;
+        };
+
+        if (this.blacky.following) {
+            this.blacky.follow(this.susan, this);
+        }
 
         // Movement
         if (this.cursors.left.isDown || this.aKey.isDown || (pointer.isDown && move.mobileLeftCondition(pointer, this.susan, camera))) {

@@ -164,6 +164,26 @@ export abstract class BaseSprite extends phaser.Physics.Arcade.Sprite {
             this.stop();
         }
     }
+
+    public follow(sprite: BaseSprite, scene: phaser.Scene, distance: number = 50) {
+        if (phaser.Math.Distance.Between(this.body.x, this.body.y, sprite.body.x, sprite.body.y) > distance) {
+            scene.physics.moveToObject(this, sprite, sprite.speed);
+            if ((sprite.body as phaser.Physics.Arcade.Body).facing === phaser.Physics.Arcade.FACING_LEFT) {
+                this.anims.play(`${this.name}Left`, true);
+            } else if ((sprite.body as phaser.Physics.Arcade.Body).facing === phaser.Physics.Arcade.FACING_RIGHT) {
+                this.anims.play(`${this.name}Right`, true);
+            } else if ((sprite.body as phaser.Physics.Arcade.Body).facing === phaser.Physics.Arcade.FACING_UP) {
+                this.anims.play(`${this.name}Up`, true);
+            } else if ((sprite.body as phaser.Physics.Arcade.Body).facing === phaser.Physics.Arcade.FACING_DOWN) {
+                this.anims.play(`${this.name}Down`, true);
+            } else {
+                this.anims.play(`${this.name}Turn`, true);
+            }
+            this.body.velocity.normalize().scale(sprite.speed);
+        } else {
+            this.stop();
+        }
+    }
 }
 
 export interface AnimationFrames {
