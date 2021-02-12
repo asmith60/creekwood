@@ -5,8 +5,7 @@ import { displayText } from '../util/text';
 import { SpriteConfig } from './Base';
 
 export class BlackySprite extends DogSprite {
-    following: boolean;
-
+    shouldFollow: boolean;
     constructor(spriteConfig: SpriteConfig) {
         spriteConfig.animationFrames = {
             initialFrame: 1,
@@ -23,14 +22,14 @@ export class BlackySprite extends DogSprite {
 
         super(spriteConfig);
 
-        this.following = false;
+        this.shouldFollow = false;
     }
 
     public bark(scene: Yard): void {
         scene.sound.play('blackybark');
 
-        if (!this.following) {
-            this.following = true;
+        if (!this.shouldFollow) {
+            this.shouldFollow = true;
 
             displayText(scene, 'Blacky seems to be following you.\nPress the B key to tell him to stop', (scene as any).susan.body.x - 150, (scene as any).susan.body.y - 30, 8000);
         }

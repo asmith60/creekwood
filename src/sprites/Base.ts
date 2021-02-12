@@ -5,7 +5,8 @@ export abstract class BaseSprite extends phaser.Physics.Arcade.Sprite {
     moveLeftRightSwitch: boolean = true;
     moveSquareSwitch: number = 0;
     speed: number;
-    followDistance: number;
+    followers: BaseSprite[] = [];
+    following: boolean = false;
     constructor(spriteConfig: SpriteConfig) {
         super(spriteConfig.scene, (spriteConfig.map.findObject("objects", obj => obj.name === spriteConfig.spawn) as any).x, (spriteConfig.map.findObject("objects", obj => obj.name === spriteConfig.spawn) as any).y, spriteConfig.key || 'none', spriteConfig.animationFrames!.initialFrame);
         spriteConfig.scene.add.existing(this);
@@ -23,7 +24,6 @@ export abstract class BaseSprite extends phaser.Physics.Arcade.Sprite {
         this.body.immovable = true;
 
         this.speed = spriteConfig.speed;
-        this.followDistance = spriteConfig.followDistance ?? 50;
 
         if (spriteConfig.animationFrames) {
             spriteConfig.scene.anims.create({
@@ -167,8 +167,13 @@ export abstract class BaseSprite extends phaser.Physics.Arcade.Sprite {
         }
     }
 
-    public follow(sprite: BaseSprite, scene: phaser.Scene) {
-        if (phaser.Math.Distance.Between(this.body.x, this.body.y, sprite.body.x, sprite.body.y) > this.followDistance) {
+    public follow(sprite: BaseSprite, scene: phaser.Scene, initialDistance: number = 50) {
+        this.following = true;
+        if (!sprite.followers.some(follower => follower.name === this.name)) {
+            sprite.followers.push(this);
+        }
+        const followDistance = initialDistance + (sprite.followers.findIndex(follower => follower.name === this.name) * 15);
+        if (phaser.Math.Distance.Between(this.body.x, this.body.y, sprite.body.x, sprite.body.y) > followDistance) {
             scene.physics.moveToObject(this, sprite, sprite.speed);
             if ((sprite.body as phaser.Physics.Arcade.Body).facing === phaser.Physics.Arcade.FACING_LEFT) {
                 this.anims.play(`${this.name}Left`, true);
@@ -185,6 +190,10 @@ export abstract class BaseSprite extends phaser.Physics.Arcade.Sprite {
         } else {
             this.stop();
         }
+    }
+
+    public stopFollow(sprite: BaseSprite) {
+        sprite.followers = sprite.followers.filter(follower => follower.name !== this.name);
     }
 
     public moveToObject(object: phaser.GameObjects.GameObject, scene: phaser.Scene, speed: number = 150) {

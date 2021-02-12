@@ -14,6 +14,7 @@ export class CoopBreakQuest extends BaseQuest {
 
     chickensCaught: ChickenSprite[] = [];
     allChickensCaught: boolean = false;
+    chickensMovingToCoop: boolean = false;
     constructor() {
         super('coopBreak', 'Coop Break');
     }
@@ -29,7 +30,6 @@ export class CoopBreakQuest extends BaseQuest {
             scale: 1,
             depth: 5,
             speed: 250,
-            followDistance: 60,
             bodySizeX: 17,
             bodySizeY: 17
         });
@@ -41,7 +41,6 @@ export class CoopBreakQuest extends BaseQuest {
             scale: 1,
             depth: 5,
             speed: 250,
-            followDistance: 70,
             bodySizeX: 17,
             bodySizeY: 17
         });
@@ -53,7 +52,6 @@ export class CoopBreakQuest extends BaseQuest {
             scale: 1,
             depth: 5,
             speed: 250,
-            followDistance: 80,
             bodySizeX: 17,
             bodySizeY: 17
         });
@@ -77,7 +75,6 @@ export class CoopBreakQuest extends BaseQuest {
             scale: 1,
             depth: 5,
             speed: 250,
-            followDistance: 100,
             bodySizeX: 17,
             bodySizeY: 17
         });
@@ -89,7 +86,6 @@ export class CoopBreakQuest extends BaseQuest {
             scale: 1,
             depth: 5,
             speed: 250,
-            followDistance: 110,
             bodySizeX: 17,
             bodySizeY: 17
         });
@@ -143,9 +139,13 @@ export class CoopBreakQuest extends BaseQuest {
             }
         });
 
-        scene.physics.add.overlap(scene.susan.interactField, scene.chickenCoopDoor, (susan, door) => {
-            if (this.allChickensCaught) {
-                this.complete(scene);
+        scene.physics.add.overlap(scene.chickenCoopDoor, scene.chickenSprites, (door, chicken) => {
+            if (this.allChickensCaught && this.chickensMovingToCoop) {
+                this.chickensCaught = this.chickensCaught.filter(caughtChicken => caughtChicken.name !== chicken.name);
+                chicken.destroy();
+                if (this.chickensCaught.length === 0) {
+                    this.complete(scene);
+                }
             }
         });
     }
@@ -153,14 +153,22 @@ export class CoopBreakQuest extends BaseQuest {
     complete(scene: Yard): void {
         this.state = 'COMPLETE';
         for (const chicken of this.chickensCaught) {
-            chicken.destroy();
+            scene.allSprites.remove(chicken);
+            scene.npcSprites.remove(chicken);
+            scene.chickenSprites.remove(chicken);
         }
+        this.chickensCaught = [];
+        this.allChickensCaught = false;
+        this.chickensMovingToCoop = false;
     }
 
     everyTick(scene: Yard): void {
         if (this.state === 'ACTIVE') {
             for (const entry of scene.chickenSprites.children.entries) {
                 const chicken = entry as ChickenSprite;
+                if (this.chickensMovingToCoop) {
+                    chicken.moveToObject(scene.chickenCoopDoor, scene, 100);
+                }
                 if (this.chickensCaught.some(caughtChicken => caughtChicken.name === chicken.name)) {
                     continue;
                 }

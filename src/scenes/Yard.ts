@@ -311,10 +311,11 @@ export default class YardScene extends BaseScene {
         this.susan.everyTick();
 
         if (phaser.Input.Keyboard.JustDown(this.bKey)) {
-            this.blacky.following = false;
+            this.blacky.shouldFollow = false;
+            this.blacky.stopFollow(this.susan);
         };
 
-        if (this.blacky.following) {
+        if (this.blacky.shouldFollow) {
             this.blacky.follow(this.susan, this);
         }
 
@@ -343,7 +344,7 @@ export default class YardScene extends BaseScene {
 
         // Everything that runs on the default delay
         if (time > this.delay) {
-            if (!this.blacky.following) {
+            if (!this.blacky.shouldFollow) {
                 this.blacky.moveWander(50);
             }
             this.bruno.moveLeftRight(250);

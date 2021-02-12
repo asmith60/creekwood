@@ -9612,7 +9612,7 @@
   <object id="16" name="frontDoor" x="743.5" y="560.5">
    <point/>
   </object>
-  <object id="17" name="chickenCoopDoor" x="679.333" y="294.667">
+  <object id="17" name="chickenCoopDoor" x="681.666" y="293.334">
    <point/>
   </object>
  </objectgroup>
