@@ -282,6 +282,18 @@
                  "width":0,
                  "x":743.5,
                  "y":560.5
+                }, 
+                {
+                 "height":0,
+                 "id":17,
+                 "name":"chickenCoopDoor",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":679.333333333333,
+                 "y":294.666666666667
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -290,7 +302,7 @@
          "y":0
         }],
  "nextlayerid":12,
- "nextobjectid":17,
+ "nextobjectid":18,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.4.2",

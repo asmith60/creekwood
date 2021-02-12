@@ -36,6 +36,7 @@ export default class YardScene extends BaseScene {
     dogSprites!: phaser.GameObjects.Group;
     chickenSprites!: phaser.GameObjects.Group;
     coopBreakQuest!: CoopBreakQuest;
+    chickenCoopDoor!: phaser.Physics.Arcade.Sprite;
     delay: number = 0;
     cursors: any;
     controls: any;
@@ -315,6 +316,12 @@ export default class YardScene extends BaseScene {
 
         if (this.blacky.following) {
             this.blacky.follow(this.susan, this);
+        }
+
+        for (const chicken of this.coopBreakQuest.chickensCaught) {
+            if (this.coopBreakQuest.state === 'ACTIVE') {
+                chicken.follow(this.susan, this);
+            }
         }
 
         // Movement

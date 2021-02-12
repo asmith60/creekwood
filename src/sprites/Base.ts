@@ -5,6 +5,7 @@ export abstract class BaseSprite extends phaser.Physics.Arcade.Sprite {
     moveLeftRightSwitch: boolean = true;
     moveSquareSwitch: number = 0;
     speed: number;
+    followDistance: number;
     constructor(spriteConfig: SpriteConfig) {
         super(spriteConfig.scene, (spriteConfig.map.findObject("objects", obj => obj.name === spriteConfig.spawn) as any).x, (spriteConfig.map.findObject("objects", obj => obj.name === spriteConfig.spawn) as any).y, spriteConfig.key || 'none', spriteConfig.animationFrames!.initialFrame);
         spriteConfig.scene.add.existing(this);
@@ -22,6 +23,7 @@ export abstract class BaseSprite extends phaser.Physics.Arcade.Sprite {
         this.body.immovable = true;
 
         this.speed = spriteConfig.speed;
+        this.followDistance = spriteConfig.followDistance ?? 50;
 
         if (spriteConfig.animationFrames) {
             spriteConfig.scene.anims.create({
@@ -165,8 +167,8 @@ export abstract class BaseSprite extends phaser.Physics.Arcade.Sprite {
         }
     }
 
-    public follow(sprite: BaseSprite, scene: phaser.Scene, distance: number = 50) {
-        if (phaser.Math.Distance.Between(this.body.x, this.body.y, sprite.body.x, sprite.body.y) > distance) {
+    public follow(sprite: BaseSprite, scene: phaser.Scene) {
+        if (phaser.Math.Distance.Between(this.body.x, this.body.y, sprite.body.x, sprite.body.y) > this.followDistance) {
             scene.physics.moveToObject(this, sprite, sprite.speed);
             if ((sprite.body as phaser.Physics.Arcade.Body).facing === phaser.Physics.Arcade.FACING_LEFT) {
                 this.anims.play(`${this.name}Left`, true);
@@ -180,6 +182,27 @@ export abstract class BaseSprite extends phaser.Physics.Arcade.Sprite {
                 this.anims.play(`${this.name}Turn`, true);
             }
             this.body.velocity.normalize().scale(sprite.speed);
+        } else {
+            this.stop();
+        }
+    }
+
+    public moveToObject(object: phaser.GameObjects.GameObject, scene: phaser.Scene, speed: number = 150) {
+        const body = object.body as phaser.Physics.Arcade.Body;
+        if (phaser.Math.Distance.Between(this.body.x, this.body.y, body.x, body.y) > 10) {
+            scene.physics.moveToObject(this, object, speed);
+            if (body.facing === phaser.Physics.Arcade.FACING_LEFT) {
+                this.anims.play(`${this.name}Left`, true);
+            } else if (body.facing === phaser.Physics.Arcade.FACING_RIGHT) {
+                this.anims.play(`${this.name}Right`, true);
+            } else if (body.facing === phaser.Physics.Arcade.FACING_UP) {
+                this.anims.play(`${this.name}Up`, true);
+            } else if (body.facing === phaser.Physics.Arcade.FACING_DOWN) {
+                this.anims.play(`${this.name}Down`, true);
+            } else {
+                this.anims.play(`${this.name}Turn`, true);
+            }
+            this.body.velocity.normalize().scale(speed);
         } else {
             this.stop();
         }
@@ -208,6 +231,7 @@ export interface SpriteConfig {
     depth: number;
     key?: string;
     speed: number;
+    followDistance?: number;
     bodySizeX?: number;
     bodySizeY?: number;
     offsetX?: number;
