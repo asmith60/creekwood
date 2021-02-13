@@ -40,7 +40,7 @@ export class AdamSprite extends PersonSprite {
                 }
             }
         } else {
-            message = 'Thanks for catching all the chickens.\nYou are the best!\nAlso . . .\nHappy Birthday :)';
+            message = 'Thanks for catching all the chickens.\nYou are the best!\nAlso . . .\nHappy Birthday :) . . . \nand Happy Valentine\'s Day <3';
         }
         displayText(scene, message, (scene as any).adam.body.x - 250, (scene as any).adam.body.y + 50, 8000);
     }
