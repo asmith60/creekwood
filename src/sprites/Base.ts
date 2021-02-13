@@ -196,17 +196,17 @@ export abstract class BaseSprite extends phaser.Physics.Arcade.Sprite {
         sprite.followers = sprite.followers.filter(follower => follower.name !== this.name);
     }
 
-    public moveToObject(object: phaser.GameObjects.GameObject, scene: phaser.Scene, speed: number = 150) {
+    public moveToObject(object: phaser.GameObjects.GameObject, scene: phaser.Scene, speed: number = 150, stoppingDistance: number = 0) {
         const body = object.body as phaser.Physics.Arcade.Body;
-        if (phaser.Math.Distance.Between(this.body.x, this.body.y, body.x, body.y) > 10) {
+        if (phaser.Math.Distance.Between(this.body.x, this.body.y, body.x, body.y) > stoppingDistance) {
             scene.physics.moveToObject(this, object, speed);
-            if (body.facing === phaser.Physics.Arcade.FACING_LEFT) {
+            if (this.body.velocity.x < 0 && Math.abs(this.body.velocity.x) > Math.abs(this.body.velocity.y)) {
                 this.anims.play(`${this.name}Left`, true);
-            } else if (body.facing === phaser.Physics.Arcade.FACING_RIGHT) {
+            } else if (this.body.velocity.x > 0 && Math.abs(this.body.velocity.x) > Math.abs(this.body.velocity.y)) {
                 this.anims.play(`${this.name}Right`, true);
-            } else if (body.facing === phaser.Physics.Arcade.FACING_UP) {
+            } else if (this.body.velocity.y < 0 && Math.abs(this.body.velocity.y) > Math.abs(this.body.velocity.x)) {
                 this.anims.play(`${this.name}Up`, true);
-            } else if (body.facing === phaser.Physics.Arcade.FACING_DOWN) {
+            } else if (this.body.velocity.y > 0 && Math.abs(this.body.velocity.y) > Math.abs(this.body.velocity.x)) {
                 this.anims.play(`${this.name}Down`, true);
             } else {
                 this.anims.play(`${this.name}Turn`, true);
